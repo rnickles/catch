@@ -1,0 +1,235 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Game</title>
+    <style>
+        body, html {
+            overscroll-behavior: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            font-size: 125%;
+        }
+        .border-text {
+            position: fixed;
+            background-color: rgba(255, 255, 255, 0.7); /* semi-transparent background */
+            padding: 10px;
+            font-family: Arial, sans-serif;
+            font-size: 1em;
+            z-index: 1000;
+        }
+        #level {
+            top: 0;
+            left: 25%;
+            transform: translateX(-50%);
+        }
+        #par {
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        #total_platform_used {
+            top: 0;
+            left: 75%;
+            transform: translateX(-50%);
+        } 
+        #level-reset {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            z-index: 1001;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        #level-reset:hover {
+            background-color: #0056b3;
+        } 
+    </style>
+  </head>
+  <body>
+    <div id="level" class="border-text"></div>
+    <div id="par" class="border-text"></div>
+    <div id="total_platform_used" class="border-text"></div>
+    <button id="level-reset">Reset Level</button>
+    <script src="game/matter.js"></script>
+
+<script type="module">
+import { init_level1 } from './game/levels/level1.js'
+import { init_level2 } from './game/levels/level2.js'
+import { init_level3 } from './game/levels/level3.js'
+import { init_level4 } from './game/levels/level4.js'
+import { init_level5 } from './game/levels/level5.js'
+import { Platform } from './game/objects/platform.js'
+import { Ball } from './game/objects/ball.js'
+
+// create an engine
+let engine = Matter.Engine.create();
+
+let MAX_LEVEL = 5;
+let current_level = 1;
+let game_state = {  
+    level_complete: false,
+    goal: null,
+    drop_coords: null,
+    total_platform_used: 0,
+    par: 0
+};
+
+function buildRenderer() {
+    let render = Matter.Render.create({
+    element: document.body,
+    engine: engine,
+    options: {
+        width: window.innerWidth,
+        height: window.innerHeight,
+        wireframes: false
+    }
+    });
+    return render;
+}
+let render = buildRenderer();
+function setupInfoDisplay() {
+    game_state.total_platform_used = 0;
+    document.getElementById('level').innerText = 'Level: ' + current_level;
+    document.getElementById('par').innerText = 'Par: ' + game_state.par;
+    document.getElementById('total_platform_used').innerText = 'Total Platform Used: ' + game_state.total_platform_used;
+}
+init_level5(engine, game_state);
+setupInfoDisplay();
+
+// run the renderer
+Matter.Render.run(render);
+
+// accept user input
+let startX, startY, endX, endY;
+
+function getCoordinates(event) {
+    if (event.touches) {
+        return {
+            x: event.touches[0].clientX,
+            y: event.touches[0].clientY
+        };
+    } else {
+        return {
+            x: event.clientX,
+            y: event.clientY
+        };
+    }
+}
+function pythagorasDistance(x1, y1, x2, y2) {
+    let a = x2 - x1;
+    let b = y2 - y1;
+    return Math.sqrt(a*a + b*b);
+}
+
+document.addEventListener('mousedown', function(event) {
+    const coords = getCoordinates(event);
+    startX = coords.x;
+    startY = coords.y;
+});
+
+document.addEventListener('mouseup', function(event) {
+    const coords = getCoordinates(event);
+    endX = coords.x;
+    endY = coords.y;
+    console.log(`${startX}, ${startY}, ${endX}, ${endY}`);
+    game_state.total_platform_used += pythagorasDistance(startX, startY, endX, endY);
+    document.getElementById('total_platform_used').innerText = 'Total Platform Used: ' + game_state.total_platform_used.toFixed(0);
+    new Platform(startX, startY, endX, endY, engine);
+});
+
+document.addEventListener('touchstart', function(event) {
+    const coords = getCoordinates(event);
+    startX = coords.x;
+    startY = coords.y;
+});
+
+document.addEventListener('touchend', function(event) {
+    const coords = getCoordinates(event.changedTouches[0]);
+    endX = coords.x;
+    endY = coords.y;
+    game_state.total_platform_used += pythagorasDistance(startX, startY, endX, endY);
+    document.getElementById('total_platform_used').innerText = 'Total Platform Used: ' + game_state.total_platform_used.toFixed(0);
+    new Platform(startX, startY, endX, endY, engine);
+});
+
+let ball = null;
+let lastBallDrop = 0;
+
+function dropBall() {
+    ball = new Ball(game_state.drop_coords[0], game_state.drop_coords[1], engine);
+    game_state.goal.addDetector(ball);
+    lastBallDrop = Date.now();
+}
+
+dropBall();
+
+// level reset routine
+function resetLevel() {
+    // Restart the engine and renderer to an intial state
+    Matter.World.clear(engine.world, false);
+    Matter.Engine.clear(engine);
+    Matter.Render.stop(render);
+    render.canvas.parentNode.removeChild(render.canvas);
+    render = buildRenderer();
+
+    if (current_level == 1) {
+        init_level1(engine, game_state)
+    }
+    if (current_level == 2) {
+        init_level2(engine, game_state)
+    }
+    if (current_level == 3) {
+        init_level3(engine, game_state)
+    }
+    if (current_level == 4) {
+        init_level4(engine, game_state)
+    }
+    if (current_level == 5) {
+        init_level5(engine, game_state)
+    }
+    setupInfoDisplay();
+    dropBall();
+    
+    // Restart the renderer
+    Matter.Render.run(render);
+}
+
+// level reset button
+document.getElementById('level-reset').onclick = resetLevel;
+
+function update() {
+    if (Date.now() - lastBallDrop >= 3000) {
+        dropBall();
+    }
+
+    game_state.goal.update();
+
+    if (game_state.level_complete == true) {
+        game_state.level_complete = false;
+        current_level += 1;
+        if (current_level > MAX_LEVEL) {
+            console.log("woot! game over!"); 
+            return;
+        }
+        resetLevel();
+    }
+
+    Matter.Engine.update(engine, 1000 / 60 );
+    requestAnimationFrame(update);
+}
+
+// run the engine
+requestAnimationFrame(update);
+
+</script>
+
+
+  </body>
+</html>
