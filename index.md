@@ -11,12 +11,11 @@ import { init_level2 } from './game/levels/level2.js'
 import { init_level3 } from './game/levels/level3.js'
 import { init_level4 } from './game/levels/level4.js'
 import { init_level5 } from './game/levels/level5.js'
-import { Platform } from './game/objects/platform.js'
 import { Ball } from './game/objects/ball.js'
+import { acceptUserInput } from './game/acceptUserInput.js'
 
 // create an engine
 let engine = Matter.Engine.create();
-
 let MAX_LEVEL = 5;
 let current_level = 1;
 let game_state = {  
@@ -26,6 +25,21 @@ let game_state = {
     total_platform_used: 0,
     par: 0
 };
+let ball = null;
+let lastBallDrop = 0;
+
+function setupInfoDisplay() {
+    game_state.total_platform_used = 0;
+    document.getElementById('level').innerText = 'Level: ' + current_level;
+    // document.getElementById('par').innerText = 'Par: ' + game_state.par;
+    // document.getElementById('total_platform_used').innerText = 'Total Platform Used: ' + game_state.total_platform_used;
+}
+
+function dropBall() {
+    ball = new Ball(game_state.drop_coords[0], game_state.drop_coords[1], engine);
+    game_state.goal.addDetector(ball);
+    lastBallDrop = Date.now();
+}
 
 function buildRenderer() {
     let render = Matter.Render.create({
@@ -39,91 +53,17 @@ function buildRenderer() {
     });
     return render;
 }
-let render = buildRenderer();
-function setupInfoDisplay() {
-    game_state.total_platform_used = 0;
-    // document.getElementById('level').innerText = 'Level: ' + current_level;
-    // document.getElementById('par').innerText = 'Par: ' + game_state.par;
-    // document.getElementById('total_platform_used').innerText = 'Total Platform Used: ' + game_state.total_platform_used;
-}
-init_level5(engine, game_state);
-setupInfoDisplay();
 
-// run the renderer
-Matter.Render.run(render);
-
-// accept user input
-let startX, startY, endX, endY;
-
-function getCoordinates(event) {
-    if (event.touches) {
-        return {
-            x: event.touches[0].clientX,
-            y: event.touches[0].clientY
-        };
-    } else {
-        return {
-            x: event.clientX,
-            y: event.clientY
-        };
-    }
-}
-function pythagorasDistance(x1, y1, x2, y2) {
-    let a = x2 - x1;
-    let b = y2 - y1;
-    return Math.sqrt(a*a + b*b);
-}
-
-document.addEventListener('mousedown', function(event) {
-    const coords = getCoordinates(event);
-    startX = coords.x;
-    startY = coords.y;
-});
-
-document.addEventListener('mouseup', function(event) {
-    const coords = getCoordinates(event);
-    endX = coords.x;
-    endY = coords.y;
-    console.log(`${startX}, ${startY}, ${endX}, ${endY}`);
-    game_state.total_platform_used += pythagorasDistance(startX, startY, endX, endY);
-    // document.getElementById('total_platform_used').innerText = 'Total Platform Used: ' + game_state.total_platform_used.toFixed(0);
-    new Platform(startX, startY, endX, endY, engine);
-});
-
-document.addEventListener('touchstart', function(event) {
-    const coords = getCoordinates(event);
-    startX = coords.x;
-    startY = coords.y;
-});
-
-document.addEventListener('touchend', function(event) {
-    const coords = getCoordinates(event.changedTouches[0]);
-    endX = coords.x;
-    endY = coords.y;
-    game_state.total_platform_used += pythagorasDistance(startX, startY, endX, endY);
-    // document.getElementById('total_platform_used').innerText = 'Total Platform Used: ' + game_state.total_platform_used.toFixed(0);
-    new Platform(startX, startY, endX, endY, engine);
-});
-
-let ball = null;
-let lastBallDrop = 0;
-
-function dropBall() {
-    ball = new Ball(game_state.drop_coords[0], game_state.drop_coords[1], engine);
-    game_state.goal.addDetector(ball);
-    lastBallDrop = Date.now();
-}
-
-dropBall();
+let renderer = buildRenderer();
 
 // level reset routine
 function resetLevel() {
     // Restart the engine and renderer to an intial state
     Matter.World.clear(engine.world, false);
     Matter.Engine.clear(engine);
-    Matter.Render.stop(render);
-    render.canvas.parentNode.removeChild(render.canvas);
-    render = buildRenderer();
+    Matter.Render.stop(renderer);
+    renderer.canvas.parentNode.removeChild(renderer.canvas);
+    renderer = buildRenderer();
 
     if (current_level == 1) {
         init_level1(engine, game_state)
@@ -144,9 +84,11 @@ function resetLevel() {
     dropBall();
     
     // Restart the renderer
-    Matter.Render.run(render);
+    Matter.Render.run(renderer);
 }
 
+resetLevel();
+acceptUserInput(engine, game_state);
 // level reset button
 document.getElementById('level-reset').onclick = resetLevel;
 
