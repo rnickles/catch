@@ -42,9 +42,9 @@ function buildRenderer() {
 let render = buildRenderer();
 function setupInfoDisplay() {
     game_state.total_platform_used = 0;
-    document.getElementById('level').innerText = 'Level: ' + current_level;
-    document.getElementById('par').innerText = 'Par: ' + game_state.par;
-    document.getElementById('total_platform_used').innerText = 'Total Platform Used: ' + game_state.total_platform_used;
+    // document.getElementById('level').innerText = 'Level: ' + current_level;
+    // document.getElementById('par').innerText = 'Par: ' + game_state.par;
+    // document.getElementById('total_platform_used').innerText = 'Total Platform Used: ' + game_state.total_platform_used;
 }
 init_level5(engine, game_state);
 setupInfoDisplay();
@@ -86,7 +86,7 @@ document.addEventListener('mouseup', function(event) {
     endY = coords.y;
     console.log(`${startX}, ${startY}, ${endX}, ${endY}`);
     game_state.total_platform_used += pythagorasDistance(startX, startY, endX, endY);
-    document.getElementById('total_platform_used').innerText = 'Total Platform Used: ' + game_state.total_platform_used.toFixed(0);
+    // document.getElementById('total_platform_used').innerText = 'Total Platform Used: ' + game_state.total_platform_used.toFixed(0);
     new Platform(startX, startY, endX, endY, engine);
 });
 
@@ -101,7 +101,7 @@ document.addEventListener('touchend', function(event) {
     endX = coords.x;
     endY = coords.y;
     game_state.total_platform_used += pythagorasDistance(startX, startY, endX, endY);
-    document.getElementById('total_platform_used').innerText = 'Total Platform Used: ' + game_state.total_platform_used.toFixed(0);
+    // document.getElementById('total_platform_used').innerText = 'Total Platform Used: ' + game_state.total_platform_used.toFixed(0);
     new Platform(startX, startY, endX, endY, engine);
 });
 
