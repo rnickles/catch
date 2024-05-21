@@ -14,6 +14,9 @@ import { init_level5 } from './game/levels/level5.js'
 import { Ball } from './game/objects/ball.js'
 import { acceptUserInput } from './game/acceptUserInput.js'
 
+// List of level intialializers; 1st item is null since there is no level 0
+let levels = [null, init_level1, init_level2, init_level3, init_level4, init_level5];
+
 // create an engine
 let engine = Matter.Engine.create();
 let MAX_LEVEL = 5;
@@ -65,21 +68,22 @@ function resetLevel() {
     renderer.canvas.parentNode.removeChild(renderer.canvas);
     renderer = buildRenderer();
 
-    if (current_level == 1) {
-        init_level1(engine, game_state)
-    }
-    if (current_level == 2) {
-        init_level2(engine, game_state)
-    }
-    if (current_level == 3) {
-        init_level3(engine, game_state)
-    }
-    if (current_level == 4) {
-        init_level4(engine, game_state)
-    }
-    if (current_level == 5) {
-        init_level5(engine, game_state)
-    }
+    levels[current_level](engine, game_state);
+    // if (current_level == 1) {
+    //     init_level1(engine, game_state)
+    // }
+    // if (current_level == 2) {
+    //     init_level2(engine, game_state)
+    // }
+    // if (current_level == 3) {
+    //     init_level3(engine, game_state)
+    // }
+    // if (current_level == 4) {
+    //     init_level4(engine, game_state)
+    // }
+    // if (current_level == 5) {
+    //     init_level5(engine, game_state)
+    // }
     setupInfoDisplay();
     dropBall();
     
