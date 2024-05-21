@@ -1,6 +1,3 @@
-690, 855, 670, 717
-656, 744, 1012, 734
-
 import { Goal, Platform } from "../objects/platform.js"
 
 export function init_level5(engine, game_state) {
