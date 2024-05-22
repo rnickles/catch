@@ -11,7 +11,7 @@ export class Platform {
         const midY = (startY + endY) / 2;
 
         // Create the platform body
-        const platform = Matter.Bodies.rectangle(midX, midY-30, length, 10, {
+        const platform = Matter.Bodies.rectangle(midX, midY, length, 10, {
             angle: angle,
             isStatic: true
         });
