@@ -6,17 +6,14 @@ title: Game
 <script src="game/matter.js"></script>
 
 <script type="module">
-import { init_level1 } from './game/levels/level1.js'
-import { init_level2 } from './game/levels/level2.js'
-import { init_level3 } from './game/levels/level3.js'
-import { init_level4 } from './game/levels/level4.js'
-import { init_level5 } from './game/levels/level5.js'
+
+import { getLevelInitializers } from './game/levels.js'
 import { Ball } from './game/objects/ball.js'
 import { acceptUserInput } from './game/acceptUserInput.js'
 
 // List of level intialializers; 1st item is null since there is no level 0
-// They all have the same exact parameters: engine and game_state.
-let levelInits = [null, init_level1, init_level2, init_level3, init_level4, init_level5];
+// They all accept the same exact arguments: engine and game_state.
+let levelInits = getLevelInitializers();
 let engine = Matter.Engine.create();// create an engine
 let MAX_LEVEL = 5;
 let current_level = 1;
