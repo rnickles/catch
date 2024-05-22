@@ -75,7 +75,7 @@ resetLevel();
 document.getElementById('level-reset').onclick = resetLevel;// level reset button
 acceptUserInput(engine, game_state);
 
-function update() {
+async function update() {
     if (Date.now() - lastBallDrop >= 3000) {
         dropBall();
     }
@@ -83,6 +83,7 @@ function update() {
     game_state.goal.update();
 
     if (game_state.level_complete == true) {
+        await new Promise(resolve => setTimeout(resolve, 2000));// Pause for 2 seconds
         game_state.level_complete = false;
         current_level += 1;
         if (current_level > MAX_LEVEL) {

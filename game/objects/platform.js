@@ -49,7 +49,7 @@ export class Goal extends HorizontalPlatform {
     #detectors
     #game_state
     constructor(x, y, engine, game_state) {
-        super(x, y, 200, 10, engine);
+        super(x, y, 100, 10, engine);
         this.#detectors = [];
         this.#game_state = game_state;
     }
@@ -57,6 +57,7 @@ export class Goal extends HorizontalPlatform {
         for (let detector of this.#detectors) {
             if (Matter.Detector.collisions(detector).length !== 0) {
                 this.#game_state.level_complete = true;
+                this.bod.render.fillStyle = 'white';
             }
         }
     }
