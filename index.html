@@ -19,7 +19,6 @@ let MAX_LEVEL = 5;
 let current_level = 1;
 let game_state = {  
     level_complete: false,
-    goal: null,
     drop_coords: null,
     total_platform_used: 0,
     par: 0
@@ -35,8 +34,7 @@ function setupInfoDisplay() {
 }
 
 function dropBall() {
-    ball = new Ball(game_state.drop_coords[0], game_state.drop_coords[1], engine);
-    game_state.goal.addDetector(ball);
+    Ball(game_state.drop_coords[0], game_state.drop_coords[1], engine);
     lastBallDrop = Date.now();
 }
 
@@ -75,12 +73,22 @@ resetLevel();
 document.getElementById('level-reset').onclick = resetLevel;// level reset button
 acceptUserInput(engine, game_state);
 
+// an example of using collisionStart event on an engine
+Matter.Events.on(engine, 'collisionStart', function(event) {
+        let pairs = event.pairs;
+
+        // change object colours to show those starting a collision
+        for (let i = 0; i < pairs.length; i++) {
+            let pair = pairs[i];
+            pair.bodyA.gameObject.update();
+            pair.bodyB.gameObject.update();
+        }
+    });
+
 async function update() {
     if (Date.now() - lastBallDrop >= 3000) {
         dropBall();
     }
-
-    game_state.goal.update();
 
     if (game_state.level_complete == true) {
         await new Promise(resolve => setTimeout(resolve, 2000));// Pause for 2 seconds

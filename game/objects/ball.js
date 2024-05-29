@@ -1,8 +1,11 @@
+import { GameObject } from "./gameObject.js";
+
 const DOT_SIZE = 30;
 
-export class Ball {
-    #bod
+export class Ball extends GameObject {
+    
     constructor(x, y, engine) {
+        super();
         // matter stuff
         // create a matter body
         let bod = Matter.Bodies.circle(x, y, DOT_SIZE * 0.5, {
@@ -12,9 +15,6 @@ export class Ball {
         });
         // add it to the physics world
         Matter.Composite.add(engine.world, bod);
-        this.#bod = bod;
-    }
-    get bod() {
-        return this.#bod;
+        this.bod = bod;
     }
 }

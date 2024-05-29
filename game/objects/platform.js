@@ -1,7 +1,10 @@
+import { GameObject } from "./gameObject.js";
+
 // General platform class; can be at any angle
 // specify the endpoints
-export class Platform {
+export class Platform extends GameObject {
     constructor(x1, y1, x2, y2, engine, color=null) {
+        super();
         // Calculate length and angle of the platform
         const length = Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2);
         const angle = Math.atan2(y2 - y1, x2 - x1);
@@ -21,6 +24,7 @@ export class Platform {
 
         // Add the platform to the world
         Matter.Composite.add(engine.world, platform);
+        this.bod = platform;
     }
 }
 
@@ -34,9 +38,9 @@ export class GoodPlatform extends Platform {
 // but the syntax is easier:
 // easier to specify a single point 
 // no need for atan or sqrt or caluculating midpoints
-export class HorizontalPlatform {
-    #bod
+export class HorizontalPlatform extends GameObject {
     constructor(x, y, width, height, engine) {
+        super();
         // matter stuff
         // create a matter body
         let bod = Matter.Bodies.rectangle(x, y, width, height, { 
@@ -47,10 +51,7 @@ export class HorizontalPlatform {
         });
         // add it to the physics world
         Matter.Composite.add(engine.world, bod);
-        this.#bod = bod;
-    }
-    get bod() {
-        return this.#bod;
+        this.bod = bod;
     }
 }
 
@@ -63,14 +64,8 @@ export class Goal extends HorizontalPlatform {
         this.#game_state = game_state;
     }
     update() {
-        for (let detector of this.#detectors) {
-            if (Matter.Detector.collisions(detector).length !== 0) {
-                this.#game_state.level_complete = true;
-                this.bod.render.fillStyle = 'white';
-            }
-        }
+        // the only way this can be called is if a ball collides with it
+        this.#game_state.level_complete = true;
+        this.bod.render.fillStyle = 'white';
     }
-    addDetector(gObject) {
-        this.#detectors.push(Matter.Detector.create({bodies: [this.bod, gObject.bod]}));
-    } 
 }
