@@ -56,11 +56,9 @@ export class HorizontalPlatform extends GameObject {
 }
 
 export class Goal extends HorizontalPlatform {
-    #detectors
     #game_state
     constructor(x, y, engine, game_state) {
         super(x, y, 100, 10, engine);
-        this.#detectors = [];
         this.#game_state = game_state;
     }
     update() {
