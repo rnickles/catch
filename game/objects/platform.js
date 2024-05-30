@@ -1,7 +1,8 @@
 // General platform class; can be at any angle
 // specify the endpoints
 export class Platform {
-    constructor(x1, y1, x2, y2, engine, color=null) {
+    #bod
+    constructor(x1, y1, x2, y2, engine, color='grey') {
         // Calculate length and angle of the platform
         const length = Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2);
         const angle = Math.atan2(y2 - y1, x2 - x1);
@@ -21,6 +22,10 @@ export class Platform {
 
         // Add the platform to the world
         Matter.Composite.add(engine.world, platform);
+        this.#bod = platform;
+    }
+    get bod() {
+        return this.#bod;
     }
 }
 
@@ -30,47 +35,45 @@ export class GoodPlatform extends Platform {
     }
 }
 
-// Strictly flat platforms; technically not needed cause can make horizontal platforms with Platform,
-// but the syntax is easier:
-// easier to specify a single point 
-// no need for atan or sqrt or caluculating midpoints
-export class HorizontalPlatform {
-    #bod
-    constructor(x, y, width, height, engine) {
-        // matter stuff
-        // create a matter body
-        let bod = Matter.Bodies.rectangle(x, y, width, height, { 
-            isStatic: true,
-            render: {
-                fillStyle: 'blue'
-            } 
-        });
-        // add it to the physics world
-        Matter.Composite.add(engine.world, bod);
-        this.#bod = bod;
-    }
-    get bod() {
-        return this.#bod;
-    }
-}
-
-export class Goal extends HorizontalPlatform {
+class AwarePlatform extends Platform {
     #detectors
     #game_state
-    constructor(x, y, engine, game_state) {
-        super(x, y, 100, 10, engine);
+    constructor(x1, y1, x2, y2, engine, game_state, color=null) {
+        super(x1, y1, x2, y2, engine, color);
         this.#detectors = [];
         this.#game_state = game_state;
     }
+    get game_state() {
+        return this.#game_state
+    }
+    set game_state(game_state) {
+        this.#game_state = game_state;
+    }
     update() {
+        return;
+    }
+    collisionDetected() {
         for (let detector of this.#detectors) {
             if (Matter.Detector.collisions(detector).length !== 0) {
-                this.#game_state.level_complete = true;
-                this.bod.render.fillStyle = 'white';
+                return true;
             }
         }
+        return false;
     }
     addDetector(gObject) {
         this.#detectors.push(Matter.Detector.create({bodies: [this.bod, gObject.bod]}));
     } 
+}
+
+export class Goal extends AwarePlatform {
+    constructor(x, y, engine, game_state) {
+        super(x-100, y, x+100, y, engine, game_state, 'blue');
+    }
+
+    update() {
+        if (this.collisionDetected()) {
+            this.game_state.level_complete = true;
+            this.bod.render.fillStyle = 'white';
+        }
+    }
 }
