@@ -77,3 +77,14 @@ export class Goal extends AwarePlatform {
         }
     }
 }
+
+export class BadPlatform extends AwarePlatform {
+    constructor(x1, y1, x2, y2, engine, game_state) {
+        super(x1, y1, x2, y2, engine, game_state, 'red');
+    } 
+    update() {
+        if (this.collisionDetected()) {
+            console.log("bad!");
+        }
+    }
+}

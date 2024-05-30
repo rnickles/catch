@@ -19,7 +19,7 @@ let MAX_LEVEL = 5;
 let current_level = 1;
 let game_state = {  
     level_complete: false,
-    goal: null,
+    aware_platforms: [],
     drop_coords: null,
     total_platform_used: 0,
     par: 0
@@ -36,7 +36,9 @@ function setupInfoDisplay() {
 
 function dropBall() {
     ball = new Ball(game_state.drop_coords[0], game_state.drop_coords[1], engine);
-    game_state.goal.addDetector(ball);
+    for (let awarePlatform of game_state.aware_platforms) {
+        awarePlatform.addDetector(ball);
+    }
     lastBallDrop = Date.now();
 }
 
@@ -80,7 +82,9 @@ async function update() {
         dropBall();
     }
 
-    game_state.goal.update();
+    for (let awarePlatform of game_state.aware_platforms) {
+        awarePlatform.update();
+    }
 
     if (game_state.level_complete == true) {
         await new Promise(resolve => setTimeout(resolve, 2000));// Pause for 2 seconds
