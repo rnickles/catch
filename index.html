@@ -26,6 +26,7 @@ let gameState = {
 let ball = null;
 let lastBallDrop = 0;
 
+// display info on top of screen
 function setupInfoDisplay() {
     gameState.totalPlatformUsed = 0;
     document.getElementById('level').innerText = 'Level: ' + currentLevel;
@@ -69,27 +70,7 @@ function resetLevel() {
     Matter.Render.run(renderer);// Restart the renderer
 }
 
-resetLevel();
-document.getElementById('level-reset').onclick = resetLevel;// level reset button
-acceptUserInput(engine, gameState);
-
-Matter.Events.on(engine, 'collisionStart', function(event) {
-        let pairs = event.pairs;
-        for (let i = 0; i < pairs.length; i++) {
-            let pair = pairs[i];
-            pair.bodyA.gameObject.collisionStart(pair.bodyB);// use back reference to get to enclosing gameObject
-            pair.bodyB.gameObject.collisionStart(pair.bodyA);// use back reference to get to enclosing gameObject
-        }
-    });
-Matter.Events.on(engine, 'collisionEnd', function(event) {
-        let pairs = event.pairs;
-        for (let i = 0; i < pairs.length; i++) {
-            let pair = pairs[i];
-            pair.bodyA.gameObject.collisionEnd(pair.bodyB);// use back reference to get to enclosing gameObject
-            pair.bodyB.gameObject.collisionEnd(pair.bodyA);// use back reference to get to enclosing gameObject
-        }
-    });
-
+// Game loop
 async function update() {
     if (Date.now() - lastBallDrop >= 3000) {
         dropBall();
@@ -110,7 +91,27 @@ async function update() {
     requestAnimationFrame(update);
 }
 
-// run the engine
+// Collision listeners
+Matter.Events.on(engine, 'collisionStart', function(event) {
+        let pairs = event.pairs;
+        for (let i = 0; i < pairs.length; i++) {
+            let pair = pairs[i];
+            pair.bodyA.gameObject.collisionStart(pair.bodyB);// use back reference to get to enclosing gameObject
+            pair.bodyB.gameObject.collisionStart(pair.bodyA);// use back reference to get to enclosing gameObject
+        }
+    });
+Matter.Events.on(engine, 'collisionEnd', function(event) {
+        let pairs = event.pairs;
+        for (let i = 0; i < pairs.length; i++) {
+            let pair = pairs[i];
+            pair.bodyA.gameObject.collisionEnd(pair.bodyB);// use back reference to get to enclosing gameObject
+            pair.bodyB.gameObject.collisionEnd(pair.bodyA);// use back reference to get to enclosing gameObject
+        }
+    });
+
+document.getElementById('level-reset').onclick = resetLevel;// level reset button
+resetLevel();
+acceptUserInput(engine, gameState);
 requestAnimationFrame(update);
 
 </script>
