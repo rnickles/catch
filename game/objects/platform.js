@@ -34,6 +34,31 @@ export class GoodPlatform extends Platform {
     }
 }
 
+class AwarePlatform extends Platform {
+    #game_state
+    constructor(x1, y1, x2, y2, engine, game_state, color=null) {
+        super(x1, y1, x2, y2, engine, color);
+        this.game_state = game_state;
+    }
+    get game_state() {
+        return this.#game_state;
+    }
+    set game_state(game_state) {
+        this.#game_state = game_state;
+    }
+}
+
+export class Goal extends AwarePlatform {
+    constructor(x, y, engine, game_state) {
+        super(x-100, y, x+100, y, engine, game_state, 'blue');
+    }
+    update() {
+        // the only way this can be called is if a ball collides with it
+        this.game_state.level_complete = true;
+        this.bod.render.fillStyle = 'white';
+    }
+}
+
 // Strictly flat platforms; technically not needed cause can make horizontal platforms with Platform,
 // but the syntax is easier:
 // easier to specify a single point 
@@ -55,15 +80,15 @@ export class HorizontalPlatform extends GameObject {
     }
 }
 
-export class Goal extends HorizontalPlatform {
-    #game_state
-    constructor(x, y, engine, game_state) {
-        super(x, y, 100, 10, engine);
-        this.#game_state = game_state;
-    }
-    update() {
-        // the only way this can be called is if a ball collides with it
-        this.#game_state.level_complete = true;
-        this.bod.render.fillStyle = 'white';
-    }
-}
+// export class Goal extends HorizontalPlatform {
+//     #game_state
+//     constructor(x, y, engine, game_state) {
+//         super(x, y, 100, 10, engine);
+//         this.#game_state = game_state;
+//     }
+//     update() {
+//         // the only way this can be called is if a ball collides with it
+//         this.#game_state.level_complete = true;
+//         this.bod.render.fillStyle = 'white';
+//     }
+// }
