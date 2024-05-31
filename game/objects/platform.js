@@ -47,9 +47,9 @@ export class Goal extends Platform {
     }
 }
 
-export class BadPlatform extends Platform {
+export class BouncyPlatform extends Platform {
     constructor(x1, y1, x2, y2, engine, game_state) {
-        super(x1, y1, x2, y2, engine, 'red');
+        super(x1, y1, x2, y2, engine, 'purple');
     }
     collisionEnd(bodyThatCollided) {
         let velocity = bodyThatCollided.velocity;
