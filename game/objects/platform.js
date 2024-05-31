@@ -34,34 +34,22 @@ export class GoodPlatform extends Platform {
     }
 }
 
-class AwarePlatform extends Platform {
+export class Goal extends Platform {
     #game_state
-    constructor(x1, y1, x2, y2, engine, game_state, color=null) {
-        super(x1, y1, x2, y2, engine, color);
-        this.game_state = game_state;
-    }
-    get game_state() {
-        return this.#game_state;
-    }
-    set game_state(game_state) {
-        this.#game_state = game_state;
-    }
-}
-
-export class Goal extends AwarePlatform {
     constructor(x, y, engine, game_state) {
-        super(x-100, y, x+100, y, engine, game_state, 'blue');
+        super(x-100, y, x+100, y, engine, 'blue');
+        this.#game_state = game_state;
     }
     collisionStart(bodyThatCollided) {
         // the only way this can be called is if a ball collides with it
-        this.game_state.level_complete = true;
+        this.#game_state.level_complete = true;
         this.bod.render.fillStyle = 'white';
     }
 }
 
-export class BadPlatform extends AwarePlatform {
+export class BadPlatform extends Platform {
     constructor(x1, y1, x2, y2, engine, game_state) {
-        super(x1, y1, x2, y2, engine, game_state, 'red');
+        super(x1, y1, x2, y2, engine, 'red');
     }
     collisionEnd(bodyThatCollided) {
         let velocity = bodyThatCollided.velocity;
