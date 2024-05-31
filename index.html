@@ -12,29 +12,29 @@ import { Ball } from './game/objects/ball.js'
 import { acceptUserInput } from './game/acceptUserInput.js'
 
 // List of level intialializers; 1st item is null since there is no level 0
-// They all accept the same exact arguments: engine and game_state.
+// They all accept the same exact arguments: engine and gameState.
 let levelInits = getLevelInitializers();
 let engine = Matter.Engine.create();// create an engine
 let MAX_LEVEL = 5;
-let current_level = 1;
-let game_state = {  
-    level_complete: false,
-    drop_coords: null,
-    total_platform_used: 0,
+let currentLevel = 1;
+let gameState = {  
+    levelComplete: false,
+    dropCoords: null,
+    totalPlatformUsed: 0,
     par: 0
 };
 let ball = null;
 let lastBallDrop = 0;
 
 function setupInfoDisplay() {
-    game_state.total_platform_used = 0;
-    document.getElementById('level').innerText = 'Level: ' + current_level;
-    // document.getElementById('par').innerText = 'Par: ' + game_state.par;
-    // document.getElementById('total_platform_used').innerText = 'Total Platform Used: ' + game_state.total_platform_used;
+    gameState.totalPlatformUsed = 0;
+    document.getElementById('level').innerText = 'Level: ' + currentLevel;
+    // document.getElementById('par').innerText = 'Par: ' + gameState.par;
+    // document.getElementById('totalPlatformUsed').innerText = 'Total Platform Used: ' + gameState.totalPlatformUsed;
 }
 
 function dropBall() {
-    new Ball(game_state.drop_coords[0], game_state.drop_coords[1], engine);
+    new Ball(gameState.dropCoords[0], gameState.dropCoords[1], engine);
     lastBallDrop = Date.now();
 }
 
@@ -62,7 +62,7 @@ function resetLevel() {
     renderer.canvas.parentNode.removeChild(renderer.canvas);
     renderer = buildRenderer();
 
-    levelInits[current_level](engine, game_state);
+    levelInits[currentLevel](engine, gameState);
     setupInfoDisplay();
     dropBall();
     
@@ -71,7 +71,7 @@ function resetLevel() {
 
 resetLevel();
 document.getElementById('level-reset').onclick = resetLevel;// level reset button
-acceptUserInput(engine, game_state);
+acceptUserInput(engine, gameState);
 
 Matter.Events.on(engine, 'collisionStart', function(event) {
         let pairs = event.pairs;
@@ -95,11 +95,11 @@ async function update() {
         dropBall();
     }
 
-    if (game_state.level_complete == true) {
+    if (gameState.levelComplete == true) {
         await new Promise(resolve => setTimeout(resolve, 2000));// Pause for 2 seconds
-        game_state.level_complete = false;
-        current_level += 1;
-        if (current_level > MAX_LEVEL) {
+        gameState.levelComplete = false;
+        currentLevel += 1;
+        if (currentLevel > MAX_LEVEL) {
             console.log("woot! game over!"); 
             return;
         }

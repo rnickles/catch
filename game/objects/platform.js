@@ -35,20 +35,20 @@ export class GoodPlatform extends Platform {
 }
 
 export class Goal extends Platform {
-    #game_state
-    constructor(x, y, engine, game_state) {
+    #gameState
+    constructor(x, y, engine, gameState) {
         super(x-100, y, x+100, y, engine, 'blue');
-        this.#game_state = game_state;
+        this.#gameState = gameState;
     }
     collisionStart(bodyThatCollided) {
         // the only way this can be called is if a ball collides with it
-        this.#game_state.level_complete = true;
+        this.#gameState.levelComplete = true;
         this.bod.render.fillStyle = 'white';
     }
 }
 
 export class BouncyPlatform extends Platform {
-    constructor(x1, y1, x2, y2, engine, game_state) {
+    constructor(x1, y1, x2, y2, engine, gameState) {
         super(x1, y1, x2, y2, engine, 'purple');
     }
     collisionEnd(bodyThatCollided) {
