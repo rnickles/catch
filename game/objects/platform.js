@@ -38,16 +38,23 @@ export class GoodPlatform extends Platform {
 class AwarePlatform extends Platform {
     #detectors
     #game_state
+    #bodyThatCollided 
     constructor(x1, y1, x2, y2, engine, game_state, color=null) {
         super(x1, y1, x2, y2, engine, color);
         this.#detectors = [];
         this.#game_state = game_state;
     }
     get game_state() {
-        return this.#game_state
+        return this.#game_state;
     }
     set game_state(game_state) {
         this.#game_state = game_state;
+    }
+    get bodyThatCollided() {
+        return this.#bodyThatCollided;
+    }
+    set bodyThatCollided(body) {
+        this.#bodyThatCollided = body;
     }
     update() {
         return;
@@ -62,6 +69,7 @@ class AwarePlatform extends Platform {
     }
     addDetector(gObject) {
         this.#detectors.push(Matter.Detector.create({bodies: [this.bod, gObject.bod]}));
+        this.bodyThatCollided = gObject.bod;
     } 
 }
 
@@ -79,12 +87,28 @@ export class Goal extends AwarePlatform {
 }
 
 export class BadPlatform extends AwarePlatform {
+    #collided
     constructor(x1, y1, x2, y2, engine, game_state) {
         super(x1, y1, x2, y2, engine, game_state, 'red');
+        this.#collided = false;
     } 
     update() {
-        if (this.collisionDetected()) {
-            console.log("bad!");
+        let collisionDetected = this.collisionDetected();
+        // Collision start
+        if (!this.#collided && collisionDetected) {
+            this.#collided = true;
+        }
+        // Collision ongoing would be:
+        // this.#collided && collisionDetected
+        // Collision end
+        else if (this.#collided && !collisionDetected) {
+            this.#collided = false;
+            let velocity = this.bodyThatCollided.velocity;
+            let factor = 5;
+            Matter.Body.setVelocity(this.bodyThatCollided, {
+                x: velocity.x * factor,
+                y: velocity.y * factor
+            });
         }
     }
 }
