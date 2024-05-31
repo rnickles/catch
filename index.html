@@ -34,7 +34,7 @@ function setupInfoDisplay() {
 }
 
 function dropBall() {
-    Ball(game_state.drop_coords[0], game_state.drop_coords[1], engine);
+    new Ball(game_state.drop_coords[0], game_state.drop_coords[1], engine);
     lastBallDrop = Date.now();
 }
 
