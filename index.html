@@ -77,16 +77,16 @@ Matter.Events.on(engine, 'collisionStart', function(event) {
         let pairs = event.pairs;
         for (let i = 0; i < pairs.length; i++) {
             let pair = pairs[i];
-            pair.bodyA.gameObject.collisionStart(pair.bodyB);
-            pair.bodyB.gameObject.collisionStart(pair.bodyA);
+            pair.bodyA.gameObject.collisionStart(pair.bodyB);// use back reference to get to enclosing gameObject
+            pair.bodyB.gameObject.collisionStart(pair.bodyA);// use back reference to get to enclosing gameObject
         }
     });
 Matter.Events.on(engine, 'collisionEnd', function(event) {
         let pairs = event.pairs;
         for (let i = 0; i < pairs.length; i++) {
             let pair = pairs[i];
-            pair.bodyA.gameObject.collisionEnd(pair.bodyB);
-            pair.bodyB.gameObject.collisionEnd(pair.bodyA);
+            pair.bodyA.gameObject.collisionEnd(pair.bodyB);// use back reference to get to enclosing gameObject
+            pair.bodyB.gameObject.collisionEnd(pair.bodyA);// use back reference to get to enclosing gameObject
         }
     });
 
