@@ -11,7 +11,10 @@ export class GameObject {
         // add a back reference from body to the game object
         bod.gameObject = this;
     }
-    update() {
+    collisionStart(bodyThatCollided) {
+        return;
+    }
+    collisionEnd(bodyThatCollided) {
         return;
     }
 }

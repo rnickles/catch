@@ -1,7 +1,8 @@
-import { Goal, GoodPlatform } from "./objects/platform.js"
+import { Goal, GoodPlatform, BadPlatform } from "./objects/platform.js"
 
 export function init_level1(engine, game_state) {
     new Goal(200, 800, engine, game_state);
+    new BadPlatform(89, 630, 350, 630, engine, game_state);
     game_state.drop_coords = [450, 50];
 }
 

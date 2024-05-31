@@ -73,15 +73,20 @@ resetLevel();
 document.getElementById('level-reset').onclick = resetLevel;// level reset button
 acceptUserInput(engine, game_state);
 
-// an example of using collisionStart event on an engine
 Matter.Events.on(engine, 'collisionStart', function(event) {
         let pairs = event.pairs;
-
-        // change object colours to show those starting a collision
         for (let i = 0; i < pairs.length; i++) {
             let pair = pairs[i];
-            pair.bodyA.gameObject.update();
-            pair.bodyB.gameObject.update();
+            pair.bodyA.gameObject.collisionStart(pair.bodyB);
+            pair.bodyB.gameObject.collisionStart(pair.bodyA);
+        }
+    });
+Matter.Events.on(engine, 'collisionEnd', function(event) {
+        let pairs = event.pairs;
+        for (let i = 0; i < pairs.length; i++) {
+            let pair = pairs[i];
+            pair.bodyA.gameObject.collisionEnd(pair.bodyB);
+            pair.bodyB.gameObject.collisionEnd(pair.bodyA);
         }
     });
 

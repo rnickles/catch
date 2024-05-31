@@ -52,43 +52,23 @@ export class Goal extends AwarePlatform {
     constructor(x, y, engine, game_state) {
         super(x-100, y, x+100, y, engine, game_state, 'blue');
     }
-    update() {
+    collisionStart(bodyThatCollided) {
         // the only way this can be called is if a ball collides with it
         this.game_state.level_complete = true;
         this.bod.render.fillStyle = 'white';
     }
 }
 
-// Strictly flat platforms; technically not needed cause can make horizontal platforms with Platform,
-// but the syntax is easier:
-// easier to specify a single point 
-// no need for atan or sqrt or caluculating midpoints
-export class HorizontalPlatform extends GameObject {
-    constructor(x, y, width, height, engine) {
-        super();
-        // matter stuff
-        // create a matter body
-        let bod = Matter.Bodies.rectangle(x, y, width, height, { 
-            isStatic: true,
-            render: {
-                fillStyle: 'blue'
-            } 
+export class BadPlatform extends AwarePlatform {
+    constructor(x1, y1, x2, y2, engine, game_state) {
+        super(x1, y1, x2, y2, engine, game_state, 'red');
+    }
+    collisionEnd(bodyThatCollided) {
+        let velocity = bodyThatCollided.velocity;
+        let factor = 5;
+        Matter.Body.setVelocity(bodyThatCollided, {
+            x: velocity.x * factor,
+            y: velocity.y * factor
         });
-        // add it to the physics world
-        Matter.Composite.add(engine.world, bod);
-        this.bod = bod;
     }
 }
-
-// export class Goal extends HorizontalPlatform {
-//     #game_state
-//     constructor(x, y, engine, game_state) {
-//         super(x, y, 100, 10, engine);
-//         this.#game_state = game_state;
-//     }
-//     update() {
-//         // the only way this can be called is if a ball collides with it
-//         this.#game_state.level_complete = true;
-//         this.bod.render.fillStyle = 'white';
-//     }
-// }
