@@ -15,7 +15,7 @@ import { acceptUserInput } from './game/acceptUserInput.js'
 // They all accept the same exact arguments: engine and gameState.
 let levelInits = getLevelInitializers();
 let engine = Matter.Engine.create();// create an engine
-let MAX_LEVEL = 5;
+const MAX_LEVEL = levelInits.length - 1;// less one to account for null first element
 let currentLevel = 1;
 let gameState = {  
     levelComplete: false,

@@ -3,7 +3,7 @@ import { GameObject } from "./gameObject.js";
 // General platform class; can be at any angle
 // specify the endpoints
 export class Platform extends GameObject {
-    constructor(x1, y1, x2, y2, engine, color=null) {
+    constructor(x1, y1, x2, y2, engine, color='grey') {
         super();
         // Calculate length and angle of the platform
         const length = Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2);
