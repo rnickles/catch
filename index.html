@@ -72,7 +72,7 @@ function resetLevel() {
 
 // Game loop
 async function update() {
-    if (Date.now() - lastBallDrop >= 3000) {
+    if (Date.now() - lastBallDrop >= 500) {
         dropBall();
     }
 

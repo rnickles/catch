@@ -11,7 +11,10 @@ export class Ball extends GameObject {
         let bod = Matter.Bodies.circle(x, y, DOT_SIZE * 0.5, {
             friction: 0.00001,
             restitution: 0.5,
-            density: 0.1
+            density: 0.1,
+            render: {
+                fillStyle: 'silver'
+            }
         });
         // add it to the physics world
         Matter.Composite.add(engine.world, bod);
