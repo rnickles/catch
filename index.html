@@ -20,6 +20,7 @@ let currentLevel = 1;
 let gameState = {  
     levelComplete: false,
     dropCoords: null,
+    gameObjectsToUpdate: [],
     totalPlatformUsed: 0,
     par: 0
 };
@@ -62,11 +63,10 @@ function resetLevel() {
     Matter.Render.stop(renderer);
     renderer.canvas.parentNode.removeChild(renderer.canvas);
     renderer = buildRenderer();
-
+    // Build next level
     levelInits[currentLevel](engine, gameState);
     setupInfoDisplay();
     dropBall();
-    
     Matter.Render.run(renderer);// Restart the renderer
 }
 
@@ -74,6 +74,10 @@ function resetLevel() {
 async function update() {
     if (Date.now() - lastBallDrop >= 3000) {
         dropBall();
+    }
+
+    for (let gObject of gameState.gameObjectsToUpdate) {
+        gObject.update();
     }
 
     if (gameState.levelComplete == true) {

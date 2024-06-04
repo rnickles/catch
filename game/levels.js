@@ -1,8 +1,10 @@
-import { Goal, GoodPlatform, BouncyPlatform } from "./objects/platform.js"
+import { Goal, GoodPlatform, BouncyPlatform, MovingPlatform } from "./objects/platform.js"
 
 export function initLevel1(engine, gameState) {
     new Goal(200, 800, engine, gameState);
     gameState.dropCoords = [450, 50];
+    let mp = new MovingPlatform(400,400,450,400, engine);
+    gameState.gameObjectsToUpdate.push(mp);
 }
 
 export function initLevel2(engine, gameState) {
@@ -33,7 +35,7 @@ export function initLevel5(engine, gameState) {
 export function initLevel6(engine, gameState) {
     new Goal(800, 600, engine, gameState);
     gameState.dropCoords = [250, 500]; 
-    new BouncyPlatform(300, 800, 500, 800, engine, gameState);
+    new BouncyPlatform(300, 800, 500, 800, engine);
 }
 
 // Return a list of level intialializers; 1st item is null since there is no level 0

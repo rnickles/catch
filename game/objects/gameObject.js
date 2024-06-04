@@ -17,4 +17,7 @@ export class GameObject {
     collisionEnd(bodyThatCollided) {
         return;
     }
+    update() {
+        return;
+    }
 }

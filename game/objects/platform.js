@@ -60,3 +60,34 @@ export class BouncyPlatform extends Platform {
         });
     }
 }
+
+export class MovingPlatform extends Platform {
+    constructor(x1, y1, x2, y2, engine, gameState) {
+        super(x1, y1, x2, y2, engine);
+        this.moveRight = true;
+    }
+    update() {
+        let platformSpeed = 20;
+        if (this.moveRight) {
+            Matter.Body.setPosition(this.bod, {
+                x: this.bod.position.x + platformSpeed,
+                y: this.bod.position.y 
+            });
+        
+            // Reverse direction when the platform reaches the right edge
+            if (this.bod.position.x + (this.bod.bounds.max.x - this.bod.bounds.min.x) / 2 >= window.innerWidth) {
+                this.moveRight = false;
+            }
+        } else {
+            Matter.Body.setPosition(this.bod, {
+                x: this.bod.position.x - platformSpeed,
+                y: this.bod.position.y 
+            });
+
+            // Reverse direction when the platform reaches the left edge
+            if (this.bod.position.x - (this.bod.bounds.max.x - this.bod.bounds.min.x) / 2 <= 0) {
+                this.moveRight = true;
+            }
+        }
+    }
+}
