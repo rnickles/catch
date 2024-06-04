@@ -48,7 +48,7 @@ export class Goal extends Platform {
 }
 
 export class BouncyPlatform extends Platform {
-    constructor(x1, y1, x2, y2, engine, gameState) {
+    constructor(x1, y1, x2, y2, engine) {
         super(x1, y1, x2, y2, engine, 'purple');
     }
     collisionEnd(bodyThatCollided) {
@@ -62,8 +62,8 @@ export class BouncyPlatform extends Platform {
 }
 
 export class MovingPlatform extends Platform {
-    constructor(x1, y1, x2, y2, engine, gameState) {
-        super(x1, y1, x2, y2, engine);
+    constructor(x1, y1, x2, y2, engine) {
+        super(x1, y1, x2, y2, engine, 'orange');
         this.moveRight = true;
     }
     update() {
