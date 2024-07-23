@@ -14,7 +14,10 @@ import { acceptUserInput } from './game/acceptUserInput.js'
 // List of level intialializers; 1st item is null since there is no level 0
 // They all accept the same exact arguments: engine and gameState.
 let levelInits = getLevelInitializers();
-let engine = Matter.Engine.create();// create an engine
+let engine = Matter.Engine.create({
+    constraintIterations: 10, // default is 2
+    positionIterations: 10,   // default is 6
+});
 const MAX_LEVEL = levelInits.length - 1;// less one to account for null first element
 let currentLevel = 1;
 let gameState = {  
