@@ -47,6 +47,17 @@ export class Goal extends Platform {
     }
 }
 
+export class BadPlatform extends Platform {
+    #engine
+    constructor(x1, y1, x2, y2, engine) {
+        super(x1, y1, x2, y2, engine, 'red');
+        this.#engine = engine;
+    }
+    collisionStart(bodyThatCollided) {
+        Matter.Composite.remove(this.#engine.world, bodyThatCollided);
+    }
+}
+
 export class BouncyPlatform extends Platform {
     constructor(x1, y1, x2, y2, engine) {
         super(x1, y1, x2, y2, engine, 'purple');

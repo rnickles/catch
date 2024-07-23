@@ -1,4 +1,4 @@
-import { Goal, GoodPlatform, BouncyPlatform, MovingPlatform } from "./objects/platform.js"
+import { Goal, GoodPlatform, BouncyPlatform, MovingPlatform, BadPlatform } from "./objects/platform.js"
 
 export function initLevel1(engine, gameState) {
     new Goal(200, 600, engine, gameState);
@@ -15,7 +15,7 @@ export function initLevel2(engine, gameState) {
 export function initLevel3(engine, gameState) {
     new Goal(200, 600, engine, gameState);
     gameState.dropCoords = [450, 50];
-    new GoodPlatform(89, 430, 350, 430, engine);
+    new BadPlatform(89, 430, 350, 430, engine);
 }
 
 export function initLevel4(engine, gameState) {
