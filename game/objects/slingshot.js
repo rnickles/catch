@@ -1,6 +1,9 @@
 import { GameObject } from "./gameObject.js";
 
 export class Slingshot extends GameObject {
+    #engine;
+    #anchor;
+    #hasConnection;
     constructor(x, y, engine) {
         super();
         // Matter stuff
@@ -13,5 +16,22 @@ export class Slingshot extends GameObject {
         });
         Matter.Composite.add(engine.world, bod);
         this.bod = bod;
+        this.#engine = engine;
+        this.#anchor = {x: x, y: y };
+        this.#hasConnection = false;
+    }
+
+    collisionStart(bodyThatCollided) {
+        if (!this.#hasConnection) {
+            let elastic = Matter.Constraint.create({ 
+                pointA: this.#anchor, 
+                bodyB: bodyThatCollided, 
+                length: 0.01,
+                damping: 0.01,
+                stiffness: 0.05
+            });
+            Matter.Composite.add(this.#engine.world, elastic);
+            this.#hasConnection = true;
+        }
     }
 }
