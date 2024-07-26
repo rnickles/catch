@@ -1,10 +1,13 @@
 import { Goal, GoodPlatform, BouncyPlatform, MovingPlatform, BadPlatform } from "./objects/platform.js"
+import { Slingshot } from "./objects/slingshot.js";
 
 export function initLevel1(engine, gameState) {
     new Goal(200, 600, engine, gameState);
     gameState.dropCoords = [450, 50];
     let mp = new MovingPlatform(400,400,450,400, engine);
     gameState.gameObjectsToUpdate.push(mp);
+
+    new Slingshot(400, 400, engine);
 }
 
 export function initLevel2(engine, gameState) {
