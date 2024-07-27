@@ -71,6 +71,7 @@ function resetLevel() {
     setupInfoDisplay();
     dropBall();
     Matter.Render.run(renderer);// Restart the renderer
+    acceptUserInput(engine, renderer, gameState);
 }
 
 // Game loop
@@ -118,7 +119,6 @@ Matter.Events.on(engine, 'collisionEnd', function(event) {
 
 document.getElementById('level-reset').onclick = resetLevel;// level reset button
 resetLevel();
-acceptUserInput(engine, gameState);
 requestAnimationFrame(update);
 
 </script>
