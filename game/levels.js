@@ -7,7 +7,7 @@ export function initLevel1(engine, gameState) {
     let mp = new MovingPlatform(400,400,450,400, engine);
     gameState.gameObjectsToUpdate.push(mp);
 
-    new Slingshot(400, 400, engine);
+    new Slingshot(400, 400, engine, gameState);
 }
 
 export function initLevel2(engine, gameState) {

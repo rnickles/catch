@@ -4,7 +4,9 @@ export class Slingshot extends GameObject {
     #engine;
     #anchor;
     #hasConnection;
-    constructor(x, y, engine) {
+    #gameState;
+    #elastic;
+    constructor(x, y, engine, gameState) {
         super();
         // Matter stuff
         let bod = Matter.Bodies.circle(x, y, 50, {
@@ -16,9 +18,11 @@ export class Slingshot extends GameObject {
         });
         Matter.Composite.add(engine.world, bod);
         this.bod = bod;
+        this.#gameState = gameState;
         this.#engine = engine;
         this.#anchor = {x: x, y: y };
         this.#hasConnection = false;
+        this.#elastic = null;
     }
 
     collisionStart(bodyThatCollided) {
@@ -31,7 +35,9 @@ export class Slingshot extends GameObject {
                 stiffness: 0.05
             });
             Matter.Composite.add(this.#engine.world, elastic);
+            this.#elastic = elastic;
             this.#hasConnection = true;
+            this.#gameState.activeSlingshots.push(self);
         }
     }
 }
