@@ -25,6 +25,13 @@ export class Slingshot extends GameObject {
         this.#elastic = null;
     }
 
+    get elastic() {
+        return this.#elastic;
+    }
+    set elastic(bod) {
+        this.#elastic = bod;
+    }
+
     collisionStart(bodyThatCollided) {
         if (!this.#hasConnection) {
             let elastic = Matter.Constraint.create({ 
@@ -37,7 +44,7 @@ export class Slingshot extends GameObject {
             Matter.Composite.add(this.#engine.world, elastic);
             this.#elastic = elastic;
             this.#hasConnection = true;
-            this.#gameState.activeSlingshots.push(self);
+            this.#gameState.activeSlingshots.push(this);
         }
     }
 }

@@ -1,8 +1,9 @@
 import { Platform } from './objects/platform.js';
 
-export function acceptUserInput(engine, renderer, game_state) {
+export function acceptUserInput(engine, renderer, gameState) {
     let startX, startY, endX, endY;
-
+    let isDragging = false;
+    let activeSlingshot = null;
     // Create mouse and mouse constraint
     const mouse = Matter.Mouse.create(renderer.canvas);
     const mouseConstraint = Matter.MouseConstraint.create(engine, {
@@ -20,17 +21,6 @@ export function acceptUserInput(engine, renderer, game_state) {
     // Function to create a new platform
     function createPlatform(x1, y1, x2, y2) {
         new Platform(x1, y1, x2, y2, engine);
-        const distance = pythagorasDistance(x1, y1, x2, y2);
-        game_state.total_platform_used += distance;
-        console.log(`${x1}, ${y1}, ${x2}, ${y2}`);
-        // document.getElementById('total_platform_used').innerText = 'Total Platform Used: ' + game_state.total_platform_used.toFixed(0);
-    }
-
-    // Calculate distance using the Pythagorean theorem
-    function pythagorasDistance(x1, y1, x2, y2) {
-        const a = x2 - x1;
-        const b = y2 - y1;
-        return Math.sqrt(a * a + b * b);
     }
 
     // Event listeners for mouse events
@@ -38,19 +28,44 @@ export function acceptUserInput(engine, renderer, game_state) {
         const mousePosition = event.mouse.position;
         startX = mousePosition.x;
         startY = mousePosition.y;
+        // Define a small region around the mouse
+        let region = {
+            min: { x: mousePosition.x - 1, y: mousePosition.y - 1 },
+            max: { x: mousePosition.x + 1, y: mousePosition.y + 1 }
+        };
+
+        // Query for bodies in the region
+        let bodies = Matter.Query.region(Matter.Composite.allBodies(engine.world), region);
+        // console.log(gameState.activeSlingshots[0].elastic.bodyB);
+        // Check if the box is in the list of bodies under the mouse
+        if ( gameState.activeSlingshots.length > 0  && bodies.indexOf(gameState.activeSlingshots[0].elastic.bodyB) !== -1) {
+            isDragging = true;
+            activeSlingshot = gameState.activeSlingshots[0];
+        }
     });
 
     Matter.Events.on(mouseConstraint, 'mouseup', function(event) {
         const mousePosition = event.mouse.position;
         endX = mousePosition.x;
         endY = mousePosition.y;
-        createPlatform(startX, startY, endX, endY);
+        if (isDragging) {
+            Matter.Composite.remove(engine.world, activeSlingshot.elastic);
+            let index = gameState.activeSlingshots.indexOf(activeSlingshot);
+            if (index > -1) {
+                gameState.activeSlingshots.splice(index, 1);
+            }
+            isDragging = false;
+            activeSlingshot = null;
+        }
+        else {
+            createPlatform(startX, startY, endX, endY);
+        }
     });
 
     // Adjust the canvas size when the window is resized
     window.addEventListener('resize', function() {
-        engine.render.canvas.width = window.innerWidth;
-        engine.render.canvas.height = window.innerHeight;
+        renderer.canvas.width = window.innerWidth;
+        renderer.canvas.height = window.innerHeight;
     });
 
     // Make sure the mouse is in sync with the rendering
