@@ -3,7 +3,11 @@ import { Platform } from './objects/platform.js';
 export function acceptUserInput(engine, renderer, gameState) {
     let startX, startY, endX, endY;
     let isDragging = false;
+    let didRelease = false;
     let activeSlingshot = null;
+    let maxSpeed = 5; // Maximum speed of the ball
+    let initialPosition = null; // Initial position of the ball
+
     // Create mouse and mouse constraint
     const mouse = Matter.Mouse.create(renderer.canvas);
     const mouseConstraint = Matter.MouseConstraint.create(engine, {
@@ -36,11 +40,11 @@ export function acceptUserInput(engine, renderer, gameState) {
 
         // Query for bodies in the region
         let bodies = Matter.Query.region(Matter.Composite.allBodies(engine.world), region);
-        // console.log(gameState.activeSlingshots[0].elastic.bodyB);
-        // Check if the box is in the list of bodies under the mouse
+        // Check if an active slingshot is in the list of bodies under the mouse
         if ( gameState.activeSlingshots.length > 0  && bodies.indexOf(gameState.activeSlingshots[0].elastic.bodyB) !== -1) {
             isDragging = true;
             activeSlingshot = gameState.activeSlingshots[0];
+            initialPosition = activeSlingshot.elastic.bodyB.position;
         }
     });
 
@@ -49,16 +53,31 @@ export function acceptUserInput(engine, renderer, gameState) {
         endX = mousePosition.x;
         endY = mousePosition.y;
         if (isDragging) {
-            Matter.Composite.remove(engine.world, activeSlingshot.elastic);
+            isDragging = false;
+            didRelease = true;
+        }
+        else {
+            createPlatform(startX, startY, endX, endY);
+        }
+    });
+
+    // Event listener to release the ball
+    Matter.Events.on(engine, 'afterUpdate', function() {
+        if (didRelease) {
+            let ball = activeSlingshot.elastic.bodyB;
+            // Limit maximum speed of current ball.
+            if (Matter.Body.getSpeed(ball) > maxSpeed) {
+                Matter.Body.setSpeed(ball, maxSpeed);
+            }
+            // Remove slingshot from the list of active slingshots
             let index = gameState.activeSlingshots.indexOf(activeSlingshot);
             if (index > -1) {
                 gameState.activeSlingshots.splice(index, 1);
             }
-            isDragging = false;
+            activeSlingshot.release();
             activeSlingshot = null;
-        }
-        else {
-            createPlatform(startX, startY, endX, endY);
+            didRelease = false;
+            initialPosition = null;
         }
     });
 

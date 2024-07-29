@@ -31,6 +31,10 @@ export class Slingshot extends GameObject {
     set elastic(bod) {
         this.#elastic = bod;
     }
+    release() {
+        Matter.Composite.remove(this.#engine.world, this.#elastic);
+        this.#hasConnection = false;
+    }
 
     collisionStart(bodyThatCollided) {
         if (!this.#hasConnection) {
