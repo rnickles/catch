@@ -28,10 +28,14 @@ export class Slingshot extends GameObject {
     get elastic() {
         return this.#elastic;
     }
-    set elastic(bod) {
-        this.#elastic = bod;
-    }
+    
     release() {
+        // Remove slingshot from the list of active slingshots
+        let index = this.#gameState.activeSlingshots.indexOf(this);
+        if (index > -1) {
+            this.#gameState.activeSlingshots.splice(index, 1);
+        }
+
         Matter.Composite.remove(this.#engine.world, this.#elastic);
         this.#hasConnection = false;
     }

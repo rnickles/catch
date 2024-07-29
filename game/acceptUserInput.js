@@ -69,11 +69,7 @@ export function acceptUserInput(engine, renderer, gameState) {
             if (Matter.Body.getSpeed(ball) > maxSpeed) {
                 Matter.Body.setSpeed(ball, maxSpeed);
             }
-            // Remove slingshot from the list of active slingshots
-            let index = gameState.activeSlingshots.indexOf(activeSlingshot);
-            if (index > -1) {
-                gameState.activeSlingshots.splice(index, 1);
-            }
+            
             activeSlingshot.release();
             activeSlingshot = null;
             didRelease = false;
