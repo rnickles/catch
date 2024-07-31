@@ -1,6 +1,6 @@
 import { GameObject } from "./gameObject.js";
 
-const DOT_SIZE = 30;
+const DOT_SIZE = 50;
 
 export class Ball extends GameObject {
     
