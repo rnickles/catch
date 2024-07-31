@@ -26,25 +26,33 @@ export function acceptUserInput(engine, renderer, gameState) {
     function createPlatform(x1, y1, x2, y2) {
         new Platform(x1, y1, x2, y2, engine);
     }
-
+    function onActiveSlingshot(mousePosition) {
+        // Define a small region around the mouse
+        let box_side_length = 2;
+        let region = {
+            min: { x: mousePosition.x - box_side_length, y: mousePosition.y - box_side_length },
+            max: { x: mousePosition.x + box_side_length, y: mousePosition.y + box_side_length }
+        };
+        // Query for bodies in the region
+        let bodies = Matter.Query.region(Matter.Composite.allBodies(engine.world), region);
+        // Check if the mouse is on any active slingshot
+        for (const slingshot of gameState.activeSlingshots) {
+            if (bodies.indexOf(slingshot.elastic.bodyB) != -1) {
+                return slingshot;
+            }
+        }
+        return false;
+    } 
     // Event listeners for mouse events
     Matter.Events.on(mouseConstraint, 'mousedown', function(event) {
         const mousePosition = event.mouse.position;
         startX = mousePosition.x;
         startY = mousePosition.y;
-        let box_side_length = 2;
-        // Define a small region around the mouse
-        let region = {
-            min: { x: mousePosition.x - box_side_length, y: mousePosition.y - box_side_length },
-            max: { x: mousePosition.x + box_side_length, y: mousePosition.y + box_side_length }
-        };
-
-        // Query for bodies in the region
-        let bodies = Matter.Query.region(Matter.Composite.allBodies(engine.world), region);
+        
         // Check if an active slingshot is in the list of bodies under the mouse
-        if ( gameState.activeSlingshots.length > 0  && bodies.indexOf(gameState.activeSlingshots[0].elastic.bodyB) !== -1) {
+        activeSlingshot = onActiveSlingshot(mousePosition);
+        if (activeSlingshot) {
             isDragging = true;
-            activeSlingshot = gameState.activeSlingshots[0];
             initialPosition = activeSlingshot.elastic.bodyB.position;
         }
     });

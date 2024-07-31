@@ -8,6 +8,8 @@ export function initLevel1(engine, gameState) {
     // gameState.gameObjectsToUpdate.push(mp);
 
     new Slingshot(400, 400, engine, gameState);
+    new Slingshot(700, 400, engine, gameState);
+
 }
 
 export function initLevel2(engine, gameState) {
