@@ -32,10 +32,11 @@ export function acceptUserInput(engine, renderer, gameState) {
         const mousePosition = event.mouse.position;
         startX = mousePosition.x;
         startY = mousePosition.y;
+        let box_side_length = 2;
         // Define a small region around the mouse
         let region = {
-            min: { x: mousePosition.x - 1, y: mousePosition.y - 1 },
-            max: { x: mousePosition.x + 1, y: mousePosition.y + 1 }
+            min: { x: mousePosition.x - box_side_length, y: mousePosition.y - box_side_length },
+            max: { x: mousePosition.x + box_side_length, y: mousePosition.y + box_side_length }
         };
 
         // Query for bodies in the region
