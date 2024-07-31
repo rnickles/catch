@@ -47,7 +47,7 @@ export class Slingshot extends GameObject {
                 bodyB: bodyThatCollided, 
                 length: 0.01,
                 damping: 0.01,
-                stiffness: 0.05
+                stiffness: 0.2
             });
             Matter.Composite.add(this.#engine.world, elastic);
             this.#elastic = elastic;
