@@ -24,18 +24,14 @@ let gameState = {
     levelComplete: false,
     dropCoords: null,
     gameObjectsToUpdate: [],
-    totalPlatformUsed: 0,
-    par: 0
+    activeSlingshots: []
 };
 let ball = null;
 let lastBallDrop = 0;
 
 // display info on top of screen
 function setupInfoDisplay() {
-    gameState.totalPlatformUsed = 0;
     document.getElementById('level').innerText = 'Level: ' + currentLevel;
-    // document.getElementById('par').innerText = 'Par: ' + gameState.par;
-    // document.getElementById('totalPlatformUsed').innerText = 'Total Platform Used: ' + gameState.totalPlatformUsed;
 }
 
 function dropBall() {
@@ -71,6 +67,7 @@ function resetLevel() {
     setupInfoDisplay();
     dropBall();
     Matter.Render.run(renderer);// Restart the renderer
+    acceptUserInput(engine, renderer, gameState);
 }
 
 // Game loop
@@ -118,7 +115,6 @@ Matter.Events.on(engine, 'collisionEnd', function(event) {
 
 document.getElementById('level-reset').onclick = resetLevel;// level reset button
 resetLevel();
-acceptUserInput(engine, gameState);
 requestAnimationFrame(update);
 
 </script>

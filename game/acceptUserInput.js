@@ -1,56 +1,97 @@
-import { Platform } from './objects/platform.js'
+import { Platform } from './objects/platform.js';
 
-export function acceptUserInput(engine, game_state) {
-    // accept user input
+export function acceptUserInput(engine, renderer, gameState) {
     let startX, startY, endX, endY;
+    let isDragging = false;
+    let didRelease = false;
+    let activeSlingshot = null;
+    let maxSpeed = 5; // Maximum speed of the ball
+    let initialPosition = null; // Initial position of the ball
 
-    function getCoordinates(event) {
-        if (event.touches) {
-            return {
-                x: event.touches[0].clientX,
-                y: event.touches[0].clientY
-            };
-        } else {
-            return {
-                x: event.clientX,
-                y: event.clientY
-            };
+    // Create mouse and mouse constraint
+    const mouse = Matter.Mouse.create(renderer.canvas);
+    const mouseConstraint = Matter.MouseConstraint.create(engine, {
+        mouse: mouse,
+        constraint: {
+            stiffness: 0.2,
+            render: {
+                visible: false
+            }
         }
+    });
+
+    Matter.Composite.add(engine.world, mouseConstraint);
+
+    // Function to create a new platform
+    function createPlatform(x1, y1, x2, y2) {
+        new Platform(x1, y1, x2, y2, engine);
     }
-    function pythagorasDistance(x1, y1, x2, y2) {
-        let a = x2 - x1;
-        let b = y2 - y1;
-        return Math.sqrt(a*a + b*b);
-    }
-
-    document.addEventListener('mousedown', function(event) {
-        const coords = getCoordinates(event);
-        startX = coords.x;
-        startY = coords.y;
+    function onActiveSlingshot(mousePosition) {
+        // Define a small region around the mouse
+        let box_side_length = 25;
+        let region = {
+            min: { x: mousePosition.x - box_side_length, y: mousePosition.y - box_side_length },
+            max: { x: mousePosition.x + box_side_length, y: mousePosition.y + box_side_length }
+        };
+        // Query for bodies in the region
+        let bodies = Matter.Query.region(Matter.Composite.allBodies(engine.world), region);
+        // Check if the mouse is on any active slingshot
+        for (const slingshot of gameState.activeSlingshots) {
+            if (bodies.indexOf(slingshot.elastic.bodyB) != -1) {
+                return slingshot;
+            }
+        }
+        return false;
+    } 
+    // Event listeners for mouse events
+    Matter.Events.on(mouseConstraint, 'mousedown', function(event) {
+        const mousePosition = event.mouse.position;
+        startX = mousePosition.x;
+        startY = mousePosition.y;
+        
+        // Check if an active slingshot is in the list of bodies under the mouse
+        activeSlingshot = onActiveSlingshot(mousePosition);
+        if (activeSlingshot) {
+            isDragging = true;
+            initialPosition = activeSlingshot.elastic.bodyB.position;
+        }
     });
 
-    document.addEventListener('mouseup', function(event) {
-        const coords = getCoordinates(event);
-        endX = coords.x;
-        endY = coords.y;
-        console.log(`${startX}, ${startY}, ${endX}, ${endY}`);
-        game_state.total_platform_used += pythagorasDistance(startX, startY, endX, endY);
-        // document.getElementById('total_platform_used').innerText = 'Total Platform Used: ' + game_state.total_platform_used.toFixed(0);
-        new Platform(startX, startY, endX, endY, engine);
+    Matter.Events.on(mouseConstraint, 'mouseup', function(event) {
+        const mousePosition = event.mouse.position;
+        endX = mousePosition.x;
+        endY = mousePosition.y;
+        if (isDragging) {
+            isDragging = false;
+            didRelease = true;
+        }
+        else {
+            createPlatform(startX, startY, endX, endY);
+        }
     });
 
-    document.addEventListener('touchstart', function(event) {
-        const coords = getCoordinates(event);
-        startX = coords.x;
-        startY = coords.y;
+    // Event listener to release the ball
+    Matter.Events.on(engine, 'afterUpdate', function() {
+        if (didRelease) {
+            let ball = activeSlingshot.elastic.bodyB;
+            // Limit maximum speed of current ball.
+            if (Matter.Body.getSpeed(ball) > maxSpeed) {
+                Matter.Body.setSpeed(ball, maxSpeed);
+            }
+            
+            activeSlingshot.release();
+            activeSlingshot = null;
+            didRelease = false;
+            initialPosition = null;
+        }
     });
 
-    document.addEventListener('touchend', function(event) {
-        const coords = getCoordinates(event.changedTouches[0]);
-        endX = coords.x;
-        endY = coords.y;
-        game_state.total_platform_used += pythagorasDistance(startX, startY, endX, endY);
-        // document.getElementById('total_platform_used').innerText = 'Total Platform Used: ' + game_state.total_platform_used.toFixed(0);
-        new Platform(startX, startY, endX, endY, engine);
+    // Adjust the canvas size when the window is resized
+    window.addEventListener('resize', function() {
+        renderer.canvas.width = window.innerWidth;
+        renderer.canvas.height = window.innerHeight;
     });
+
+    // Make sure the mouse is in sync with the rendering
+    renderer.mouse = mouse;
 }
