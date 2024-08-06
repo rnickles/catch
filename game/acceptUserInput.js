@@ -28,7 +28,7 @@ export function acceptUserInput(engine, renderer, gameState) {
     }
     function onActiveSlingshot(mousePosition) {
         // Define a small region around the mouse
-        let box_side_length = 2;
+        let box_side_length = 10;
         let region = {
             min: { x: mousePosition.x - box_side_length, y: mousePosition.y - box_side_length },
             max: { x: mousePosition.x + box_side_length, y: mousePosition.y + box_side_length }
