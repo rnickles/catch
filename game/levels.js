@@ -1,15 +1,22 @@
 import { Goal, GoodPlatform, BouncyPlatform, MovingPlatform, BadPlatform } from "./objects/platform.js"
 import { Slingshot } from "./objects/slingshot.js";
 
+function updatePosition(element, top, left) {
+    element.style.top = top + 'px';
+    element.style.left = left + 'px';
+    element.style.transform = 'translateX(-50%)';
+}
+
 export function initLevel1(engine, gameState) {
     new Goal(200, 600, engine, gameState);
     gameState.dropCoords = [450, 50];
-    // let mp = new MovingPlatform(400,400,450,400, engine);
-    // gameState.gameObjectsToUpdate.push(mp);
-
-    new Slingshot(400, 400, engine, gameState);
-    new Slingshot(700, 400, engine, gameState);
-
+    let description1 = document.getElementById("description1");
+    description1.innerText = `Draw platforms to get 
+                                a ball into the goal!`;
+    updatePosition(description1, 100, 200);
+    let description2 = document.getElementById("description2");
+    description2.innerText = `Goal`;
+    updatePosition(description2, 600, 200);
 }
 
 export function initLevel2(engine, gameState) {
