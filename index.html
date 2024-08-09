@@ -11,12 +11,10 @@ import { getLevelInitializers } from './game/levels.js'
 import { Ball } from './game/objects/ball.js'
 import { acceptUserInput } from './game/acceptUserInput.js'
 
-// List of level intialializers; 1st item is null since there is no level 0
-// They all accept the same exact arguments: engine and gameState.
 let levelInits = getLevelInitializers();
 let engine = Matter.Engine.create({
-    constraintIterations: 10, // default is 2
-    positionIterations: 10,   // default is 6
+    constraintIterations: 10, // default is 2, higher helps not miss collisions
+    positionIterations: 10,   // default is 6, higher helps not miss collisions
 });
 const MAX_LEVEL = levelInits.length - 1;// less one to account for null first element
 let currentLevel = 1;
@@ -28,6 +26,7 @@ let gameState = {
 };
 let ball = null;
 let lastBallDrop = 0;
+let render = null;
 
 // display info on top of screen
 function setupInfoDisplay() {
@@ -39,7 +38,7 @@ function dropBall() {
     lastBallDrop = Date.now();
 }
 
-function buildRenderer() {
+function buildRender() {
     let render = Matter.Render.create({
         element: document.body,
         engine: engine,
@@ -52,22 +51,21 @@ function buildRenderer() {
     return render;
 }
 
-let renderer = buildRenderer();
-
-// level reset routine
 function resetLevel() {
     // Restart the engine and renderer to an intial state
     Matter.World.clear(engine.world, false);
     Matter.Engine.clear(engine);
-    Matter.Render.stop(renderer);
-    renderer.canvas.parentNode.removeChild(renderer.canvas);
-    renderer = buildRenderer();
+    if (render) {
+        Matter.Render.stop(render);
+        render.canvas.parentNode.removeChild(render.canvas);
+    }
+    render = buildRender();
     // Build next level
     levelInits[currentLevel](engine, gameState);
     setupInfoDisplay();
     dropBall();
-    Matter.Render.run(renderer);// Restart the renderer
-    acceptUserInput(engine, renderer, gameState);
+    Matter.Render.run(render);// Restart the render
+    acceptUserInput(engine, render, gameState);
 }
 
 // Game loop

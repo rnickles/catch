@@ -1,7 +1,7 @@
 import { Platform } from './objects/platform.js';
 import { CATEGORY_MOUSE, ALL_MASK } from './objects/gameObject.js';
 
-export function acceptUserInput(engine, renderer, gameState) {
+export function acceptUserInput(engine, render, gameState) {
     let startX, startY, endX, endY;
     let isDragging = false;
     let didRelease = false;
@@ -10,7 +10,7 @@ export function acceptUserInput(engine, renderer, gameState) {
     let initialPosition = null;
 
     // Create mouse and mouse constraint
-    const mouse = Matter.Mouse.create(renderer.canvas);
+    const mouse = Matter.Mouse.create(render.canvas);
     const mouseConstraint = Matter.MouseConstraint.create(engine, {
         mouse: mouse,
         constraint: {
@@ -98,5 +98,5 @@ export function acceptUserInput(engine, renderer, gameState) {
     });
 
     // Make sure the mouse is in sync with the rendering
-    renderer.mouse = mouse;
+    render.mouse = mouse;
 }
