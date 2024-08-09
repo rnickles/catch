@@ -6,7 +6,7 @@ export function acceptUserInput(engine, renderer, gameState) {
     let didRelease = false;
     let activeSlingshot = null;
     let maxSpeed = 5; // Maximum speed of the ball
-    let initialPosition = null; // Initial position of the ball
+    let initialPosition = null;
 
     // Create mouse and mouse constraint
     const mouse = Matter.Mouse.create(renderer.canvas);
