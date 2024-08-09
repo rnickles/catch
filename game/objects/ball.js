@@ -1,4 +1,4 @@
-import { GameObject } from "./gameObject.js";
+import { GameObject, CATEGORY_MOUSE, CATEGORY_DEFAULT } from "./gameObject.js";
 
 const DOT_SIZE = 50;
 
@@ -14,6 +14,10 @@ export class Ball extends GameObject {
             density: 0.1,
             render: {
                 fillStyle: 'silver'
+            },
+            collisionFilter: {
+                category: CATEGORY_DEFAULT,
+                mask: ~CATEGORY_MOUSE // It should not collide with the mouse by default
             }
         });
         // add it to the physics world
