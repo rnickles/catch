@@ -1,4 +1,5 @@
 import { Platform } from './objects/platform.js';
+import { CATEGORY_MOUSE, ALL_MASK } from './objects/gameObject.js';
 
 export function acceptUserInput(engine, renderer, gameState) {
     let startX, startY, endX, endY;
@@ -16,6 +17,10 @@ export function acceptUserInput(engine, renderer, gameState) {
             stiffness: 0.2,
             render: {
                 visible: false
+            },
+            collisionFilter: {
+                category: CATEGORY_MOUSE,
+                mask: ALL_MASK
             }
         }
     });

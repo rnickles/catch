@@ -1,4 +1,4 @@
-import { GameObject } from "./gameObject.js";
+import { GameObject, CATEGORY_DEFAULT, ALL_MASK } from "./gameObject.js";
 
 // General platform class; can be at any angle
 // specify the endpoints
@@ -19,6 +19,10 @@ export class Platform extends GameObject {
             isStatic: true,
             render: {
                 fillStyle: color
+            },
+            collisionFilter: {
+                category: CATEGORY_DEFAULT,
+                mask: ALL_MASK
             }
         });
 

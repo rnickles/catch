@@ -1,7 +1,7 @@
 import { Goal, GoodPlatform, BouncyPlatform, MovingPlatform, BadPlatform } from "./objects/platform.js"
 import { Slingshot } from "./objects/slingshot.js";
 
-function updatePosition(element, x, y) {
+function updateHTMLElementPosition(element, x, y) {
     let top = y;
     let left = x;
     element.style.top = top + 'px';
@@ -16,9 +16,9 @@ export function initLevel1(engine, gameState) {
     
     description1.innerText = `Draw platforms to get 
                                 a ball to the goal!`;
-    updatePosition(description1, 200, 100);
+    updateHTMLElementPosition(description1, 200, 100);
     description2.innerText = `Goal`;
-    updatePosition(description2, 200, 600);
+    updateHTMLElementPosition(description2, 200, 600);
 }
 
 export function initLevel2(engine, gameState) {
@@ -27,9 +27,9 @@ export function initLevel2(engine, gameState) {
     gameState.dropCoords = [450, 50];
     description1.innerText = `Balls can safely roll
                                 on green platforms`;
-    updatePosition(description1, 200, 100);
+    updateHTMLElementPosition(description1, 200, 100);
     description2.innerText = ``;
-    updatePosition(description2, 800, 200);
+    updateHTMLElementPosition(description2, 800, 200);
 }
 
 export function initLevel3(engine, gameState) {
@@ -38,7 +38,7 @@ export function initLevel3(engine, gameState) {
     new BadPlatform(350, 300, 550, 300, engine);
     description1.innerText = `Red platforms 
                                 destroy balls`;
-    updatePosition(description1, 250, 100);
+    updateHTMLElementPosition(description1, 250, 100);
 }
 
 export function initLevel4(engine, gameState) {
@@ -47,7 +47,7 @@ export function initLevel4(engine, gameState) {
     new BouncyPlatform(300, 600, 500, 600, engine);
     description1.innerText = `Purple platforms 
                                 are extra bouncy`;
-    updatePosition(description1, 250, 100);
+    updateHTMLElementPosition(description1, 250, 100);
 }
 
 export function initLevel5(engine, gameState) {
@@ -56,9 +56,9 @@ export function initLevel5(engine, gameState) {
     new Slingshot(500, 400, engine, gameState);
     description1.innerText = `You can launch a ball 
                                 from a slingshot`;
-    updatePosition(description1, 250, 100);
+    updateHTMLElementPosition(description1, 250, 100);
     description2.innerText = `Slingshot`;
-    updatePosition(description2, 500, 400);
+    updateHTMLElementPosition(description2, 500, 400);
 }
 
 export function initLevel6(engine, gameState) {

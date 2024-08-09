@@ -1,4 +1,4 @@
-import { GameObject } from "./gameObject.js";
+import { GameObject, CATEGORY_DEFAULT, CATEGORY_MOUSE, ALL_MASK } from "./gameObject.js";
 
 export class Slingshot extends GameObject {
     #engine;
@@ -6,6 +6,7 @@ export class Slingshot extends GameObject {
     #hasConnection;
     #gameState;
     #elastic;
+    #loadedBall;
     constructor(x, y, engine, gameState) {
         super();
         // Matter stuff
@@ -14,6 +15,10 @@ export class Slingshot extends GameObject {
             isSensor:true,
             render: {
                 fillStyle: 'rgba(0, 0, 255, 0.5)' // Blue color with 50% transparency
+            },
+            collisionFilter: {
+                category: CATEGORY_DEFAULT,
+                mask: ALL_MASK
             }
         });
         Matter.Composite.add(engine.world, bod);
@@ -38,6 +43,8 @@ export class Slingshot extends GameObject {
 
         Matter.Composite.remove(this.#engine.world, this.#elastic);
         this.#hasConnection = false;
+        // Reset the collision parameters to default state: don't interact w/ the mouse.
+        Matter.Body.set(this.#loadedBall, "collisionFilter", {category: CATEGORY_DEFAULT, mask: ~CATEGORY_MOUSE});
     }
 
     collisionStart(bodyThatCollided) {
@@ -53,6 +60,9 @@ export class Slingshot extends GameObject {
             this.#elastic = elastic;
             this.#hasConnection = true;
             this.#gameState.activeSlingshots.push(this);
+            this.#loadedBall = bodyThatCollided;
+            // Change collision parameters of the ball on the fly since now we want the mouse to be able to grab the ball
+            Matter.Body.set(this.#loadedBall, "collisionFilter", {category: CATEGORY_DEFAULT, mask: ALL_MASK});
         }
     }
 }
