@@ -41,7 +41,7 @@ export class GoodPlatform extends Platform {
 export class Goal extends Platform {
     #gameState
     constructor(x, y, engine, gameState) {
-        super(x-100, y, x+100, y, engine, 'blue');
+        super(x-20, y, x+20, y, engine, 'blue');
         this.#gameState = gameState;
     }
     collisionStart(bodyThatCollided) {

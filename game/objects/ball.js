@@ -24,26 +24,4 @@ export class Ball extends GameObject {
         Matter.Composite.add(engine.world, bod);
         this.bod = bod;
     }
-    collisionStart(bodyThatCollided) {
-        if (bodyThatCollided.gameObject instanceof Ball) {
-            return;
-        } else {
-            const ballCollisionSound = new Audio('ballCollisionSound.mp3');
-            // Calculate the velocity magnitude (speed) of the ball
-            const velocity = Math.sqrt(
-                this.bod.velocity.x ** 2 +
-                this.bod.velocity.y ** 2
-            );
-
-            // Scale the volume based on the velocity
-            // Assume a maximum volume of 1, you can adjust the scaling factor as needed
-            const maxSpeed = 20; // Adjust this based on the expected maximum speed
-            const volume = Math.min(1, velocity / maxSpeed); // Ensure volume is between 0 and 1
-
-            // Set the volume of the sound
-            ballCollisionSound.volume = volume;
-            // ballCollisionSound.play();
-            ballCollisionSound.remove();
-        }
-    }
 }
