@@ -3,7 +3,7 @@ import { GameObject, CATEGORY_MOUSE, CATEGORY_DEFAULT } from "./gameObject.js";
 const DOT_SIZE = 50;
 
 export class Ball extends GameObject {
-    
+
     constructor(x, y, engine) {
         super();
         // matter stuff

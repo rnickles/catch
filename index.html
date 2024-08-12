@@ -110,7 +110,9 @@ Matter.Events.on(engine, 'collisionEnd', function(event) {
             pair.bodyB.gameObject.collisionEnd(pair.bodyA);// use back reference to get to enclosing gameObject
         }
     });
-
+const backgroundMusic = new Audio('backgroundMusic.mp3');
+backgroundMusic.loop = true;
+backgroundMusic.play();
 document.getElementById('level-reset').onclick = resetLevel;// level reset button
 resetLevel();
 requestAnimationFrame(update);
