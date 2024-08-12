@@ -24,4 +24,8 @@ export class Ball extends GameObject {
         Matter.Composite.add(engine.world, bod);
         this.bod = bod;
     }
+    collisionStart(bodyThatCollided) {
+        const ballCollideSound = document.getElementById("ballCollisionSound");
+        ballCollideSound.play();
+    }
 }
