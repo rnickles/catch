@@ -1,4 +1,4 @@
-import { GameObject, CATEGORY_DEFAULT, CATEGORY_MOUSE, ALL_MASK } from "./gameObject.js";
+import { GameObject, CATEGORY_DEFAULT, CATEGORY_MOUSE, ALL_MASK, relativeX, relativeY } from "./gameObject.js";
 
 export class Slingshot extends GameObject {
     #engine;
@@ -9,6 +9,8 @@ export class Slingshot extends GameObject {
     #loadedBall;
     constructor(x, y, engine, gameState) {
         super();
+        x = relativeX(x);
+        y = relativeY(y);
         // Matter stuff
         let bod = Matter.Bodies.circle(x, y, 50, {
             isStatic: true,

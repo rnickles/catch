@@ -88,5 +88,5 @@ export function initLevel8(engine, gameState) {
 // Return a list of level intialializers; 1st item is null since there is no level 0
 // They all accept the same exact argumets: engine and gameState.
 export function getLevelInitializers() {
-    return [null, initLevel1, initLevel2, initLevel3, initLevel4, initLevel5, initLevel6, initLevel7, initLevel8];
+    return [null, initLevel8, initLevel2, initLevel3, initLevel4, initLevel5, initLevel6, initLevel7, initLevel8];
 }

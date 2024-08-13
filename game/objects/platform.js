@@ -1,10 +1,14 @@
-import { GameObject, CATEGORY_DEFAULT, ALL_MASK } from "./gameObject.js";
-
+import { GameObject, CATEGORY_DEFAULT, ALL_MASK, relativeX, relativeY } from "./gameObject.js";
+ 
 // General platform class; can be at any angle
 // specify the endpoints
 export class Platform extends GameObject {
     constructor(x1, y1, x2, y2, engine, color='grey') {
         super();
+        x1 = relativeX(x1);
+        y1 = relativeY(y1);
+        x2 = relativeX(x2);
+        y2 = relativeY(y2);
         // Calculate length and angle of the platform
         const length = Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2);
         const angle = Math.atan2(y2 - y1, x2 - x1);

@@ -1,11 +1,13 @@
-import { GameObject, CATEGORY_MOUSE, CATEGORY_DEFAULT } from "./gameObject.js";
-
+import { GameObject, CATEGORY_MOUSE, CATEGORY_DEFAULT, relativeX, relativeY } from "./gameObject.js";
+ 
 const DOT_SIZE = 50;
 
 export class Ball extends GameObject {
 
     constructor(x, y, engine) {
         super();
+        x = relativeX(x);
+        y = relativeY(y);
         // matter stuff
         // create a matter body
         let bod = Matter.Bodies.circle(x, y, DOT_SIZE * 0.5, {
