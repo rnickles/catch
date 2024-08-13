@@ -83,6 +83,8 @@ export function initLevel8(engine, gameState) {
     gameState.dropCoords = [100, 100];
     new BadPlatform(600, 0, 600, 400, engine);
     new BadPlatform(600, 400, 900, 400, engine);
+    description1.innerText = window.innerWidth + ', ' + window.innerHeight;
+    updateHTMLElementPosition(description1, 200, 100)
 }
 
 // Return a list of level intialializers; 1st item is null since there is no level 0
