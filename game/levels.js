@@ -10,6 +10,7 @@ function updateHTMLElementPosition(element, x, y) {
 }
 let description1 = document.getElementById("description1");
 let description2 = document.getElementById("description2");
+// TUTORIAL BEGIN
 export function initLevel1(engine, gameState) {
     new Goal(200, 600, engine, gameState);
     gameState.dropCoords = [450, 50];
@@ -60,7 +61,8 @@ export function initLevel5(engine, gameState) {
     description2.innerText = `Slingshot`;
     updateHTMLElementPosition(description2, 500, 400);
 }
-
+// TUTORIAL END
+// LEVELS BEGIN
 export function initLevel6(engine, gameState) {
     description1.innerText = ``;
     description2.innerText = ``;
@@ -76,8 +78,15 @@ export function initLevel7(engine, gameState) {
     new GoodPlatform(650, 229, 668, 833, engine);
 }
 
+export function initLevel8(engine, gameState) {
+    new Goal(800, 300, engine, gameState);
+    gameState.dropCoords = [100, 100];
+    new BadPlatform(600, 0, 600, 400, engine);
+    new BadPlatform(600, 400, 900, 400, engine);
+}
+
 // Return a list of level intialializers; 1st item is null since there is no level 0
 // They all accept the same exact argumets: engine and gameState.
 export function getLevelInitializers() {
-    return [null, initLevel1, initLevel2, initLevel3, initLevel4, initLevel5, initLevel6, initLevel7];
+    return [null, initLevel1, initLevel2, initLevel3, initLevel4, initLevel5, initLevel6, initLevel7, initLevel8];
 }
