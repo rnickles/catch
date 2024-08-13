@@ -5,8 +5,8 @@ import { relativeX, relativeY } from "./objects/gameObject.js";
 function updateHTMLElementPosition(element, x, y) {
     let top = relativeY(y);
     let left = relativeX(x);
-    element.style.top = top + 'px';
-    element.style.left = left + 'px';
+    element.style.top = top + 'vh';
+    element.style.left = left + 'vw';
     element.style.transform = 'translateX(-50%)';
 }
 let description1 = document.getElementById("description1");
