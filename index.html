@@ -30,7 +30,14 @@ let render = null;
 
 // display info on top of screen
 function setupInfoDisplay() {
-    document.getElementById('level').innerText = 'Level: ' + currentLevel;
+    let TUTORIAL_LEVEL_COUNT = 5;
+    let displayText = '';
+    if (currentLevel <= TUTORIAL_LEVEL_COUNT) {
+        displayText = 'Tutorial: ' + currentLevel;
+    } else {
+        displayText = 'Level: ' + (currentLevel - TUTORIAL_LEVEL_COUNT)
+    }
+    document.getElementById('level').innerText = displayText;
 }
 
 function dropBall() {
