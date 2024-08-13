@@ -1,9 +1,10 @@
 import { Goal, GoodPlatform, BouncyPlatform, MovingPlatform, BadPlatform } from "./objects/platform.js"
 import { Slingshot } from "./objects/slingshot.js";
+import { relativeX, relativeY } from "./objects/gameObject.js";
 
 function updateHTMLElementPosition(element, x, y) {
-    let top = y;
-    let left = x;
+    let top = relativeY(y);
+    let left = relativeX(x);
     element.style.top = top + 'px';
     element.style.left = left + 'px';
     element.style.transform = 'translateX(-50%)';
@@ -83,7 +84,6 @@ export function initLevel8(engine, gameState) {
     gameState.dropCoords = [100, 100];
     new BadPlatform(600, 0, 600, 400, engine);
     new BadPlatform(600, 400, 900, 400, engine);
-    description1.innerText = window.innerWidth + ', ' + window.innerHeight;
     updateHTMLElementPosition(description1, 200, 100)
 }
 
