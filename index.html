@@ -112,7 +112,9 @@ Matter.Events.on(engine, 'collisionEnd', function(event) {
     });
 const backgroundMusic = new Audio('backgroundMusic.mp3');
 backgroundMusic.loop = true;
+backgroundMusic.preload = 'auto';
 backgroundMusic.play();
+
 document.getElementById('level-reset').onclick = resetLevel;// level reset button
 resetLevel();
 requestAnimationFrame(update);
