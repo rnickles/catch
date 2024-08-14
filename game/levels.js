@@ -63,15 +63,15 @@ function initLevel5(engine, gameState) {
 function initLevel6(engine, gameState) {
     description1.innerText = ``;
     description2.innerText = ``;
-    new Goal(250, 600, engine, gameState);
-    gameState.dropCoords = [450, 50];
-    new GoodPlatform(150, 500, 400, 500, engine);
-    new GoodPlatform(400, 500, 400, 649, engine)
+    new Goal(350, 550, engine, gameState);
+    gameState.dropCoords = [500, 50];
+    new GoodPlatform(200, 500, 450, 500, engine);
+    new GoodPlatform(450, 500, 450, 649, engine)
 }
 function initLevel7(engine, gameState) {
-    new Goal(800, 600, engine, gameState);
+    new Goal(700, 600, engine, gameState);
     gameState.dropCoords = [450, 50];
-    new GoodPlatform(650, 229, 668, 833, engine);
+    new GoodPlatform(550, 200, 550, 700, engine);
 }
 function initLevel8(engine, gameState) {
     gameState.dropCoords = [100, 400];
