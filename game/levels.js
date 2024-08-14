@@ -22,7 +22,6 @@ function initLevel1(engine, gameState) {
     description2.innerText = `Goal`;
     updateHTMLElementPosition(description2, 200, 600);
 }
-
 function initLevel2(engine, gameState) {
     new Goal(800, 600, engine, gameState);
     new GoodPlatform(400, 500, 500, 400, engine);
@@ -33,7 +32,6 @@ function initLevel2(engine, gameState) {
     description2.innerText = ``;
     updateHTMLElementPosition(description2, 800, 200);
 }
-
 function initLevel3(engine, gameState) {
     new Goal(200, 600, engine, gameState);
     gameState.dropCoords = [450, 50];
@@ -42,7 +40,6 @@ function initLevel3(engine, gameState) {
                                 destroy balls`;
     updateHTMLElementPosition(description1, 250, 100);
 }
-
 function initLevel4(engine, gameState) {
     new Goal(800, 200, engine, gameState);
     gameState.dropCoords = [150, 300];
@@ -51,7 +48,6 @@ function initLevel4(engine, gameState) {
                                 are extra bouncy`;
     updateHTMLElementPosition(description1, 250, 100);
 }
-
 function initLevel5(engine, gameState) {
     new Goal(800, 200, engine, gameState);
     gameState.dropCoords = [150, 300];
@@ -72,34 +68,30 @@ function initLevel6(engine, gameState) {
     new GoodPlatform(150, 500, 400, 500, engine);
     new GoodPlatform(400, 500, 400, 649, engine)
 }
-
 function initLevel7(engine, gameState) {
     new Goal(800, 600, engine, gameState);
     gameState.dropCoords = [450, 50];
     new GoodPlatform(650, 229, 668, 833, engine);
 }
-
 function initLevel8(engine, gameState) {
-    new Goal(800, 300, engine, gameState);
-    gameState.dropCoords = [100, 100];
-    new BadPlatform(600, 0, 600, 400, engine);
-    new BadPlatform(600, 400, 900, 400, engine);
-}
-
-function initLevel9(engine, gameState) {
     gameState.dropCoords = [100, 400];
     new BadPlatform(400, 300, 400, 800, engine);
     new Slingshot(300, 500, engine, gameState);
     new Goal(800, 400, engine, gameState);
 }
-
-function initLevel10(engine, gameState) {
+function initLevel9(engine, gameState) {
     gameState.dropCoords = [800, 400];
     let mp = new MovingPlatform(500, 300, 600, 300, engine);
     gameState.gameObjectsToUpdate.push(mp);
     new Slingshot(700, 450, engine, gameState);
     new Slingshot(500, 250, engine, gameState);
     new Goal(200, 400, engine, gameState);
+}
+function initLevel10(engine, gameState) {
+    new Goal(700, 300, engine, gameState);
+    gameState.dropCoords = [100, 100];
+    new BadPlatform(500, 0, 500, 400, engine);
+    new BadPlatform(500, 400, 800, 400, engine);
 }
 
 // Return a list of level intialializers; 1st item is null since there is no level 0
