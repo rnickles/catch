@@ -12,10 +12,10 @@ function updateHTMLElementPosition(element, x, y) {
 let description1 = document.getElementById("description1");
 let description2 = document.getElementById("description2");
 // TUTORIAL BEGIN
-export function initLevel1(engine, gameState) {
+function initLevel1(engine, gameState) {
     new Goal(200, 600, engine, gameState);
     gameState.dropCoords = [450, 50];
-    
+
     description1.innerText = `Draw platforms to get 
                                 a ball to the goal!`;
     updateHTMLElementPosition(description1, 200, 100);
@@ -23,9 +23,9 @@ export function initLevel1(engine, gameState) {
     updateHTMLElementPosition(description2, 200, 600);
 }
 
-export function initLevel2(engine, gameState) {
+function initLevel2(engine, gameState) {
     new Goal(800, 600, engine, gameState);
-    new GoodPlatform(400, 500, 500, 400, engine );
+    new GoodPlatform(400, 500, 500, 400, engine);
     gameState.dropCoords = [450, 50];
     description1.innerText = `Balls can safely roll
                                 on green platforms`;
@@ -34,7 +34,7 @@ export function initLevel2(engine, gameState) {
     updateHTMLElementPosition(description2, 800, 200);
 }
 
-export function initLevel3(engine, gameState) {
+function initLevel3(engine, gameState) {
     new Goal(200, 600, engine, gameState);
     gameState.dropCoords = [450, 50];
     new BadPlatform(350, 300, 550, 300, engine);
@@ -43,18 +43,18 @@ export function initLevel3(engine, gameState) {
     updateHTMLElementPosition(description1, 250, 100);
 }
 
-export function initLevel4(engine, gameState) {
+function initLevel4(engine, gameState) {
     new Goal(800, 200, engine, gameState);
-    gameState.dropCoords = [150, 300]; 
+    gameState.dropCoords = [150, 300];
     new BouncyPlatform(300, 600, 500, 600, engine);
     description1.innerText = `Purple platforms 
                                 are extra bouncy`;
     updateHTMLElementPosition(description1, 250, 100);
 }
 
-export function initLevel5(engine, gameState) {
+function initLevel5(engine, gameState) {
     new Goal(800, 200, engine, gameState);
-    gameState.dropCoords = [150, 300]; 
+    gameState.dropCoords = [150, 300];
     new Slingshot(500, 400, engine, gameState);
     description1.innerText = `You can launch a ball 
                                 from a slingshot`;
@@ -64,7 +64,7 @@ export function initLevel5(engine, gameState) {
 }
 // TUTORIAL END
 // LEVELS BEGIN
-export function initLevel6(engine, gameState) {
+function initLevel6(engine, gameState) {
     description1.innerText = ``;
     description2.innerText = ``;
     new Goal(250, 600, engine, gameState);
@@ -73,23 +73,28 @@ export function initLevel6(engine, gameState) {
     new GoodPlatform(400, 500, 400, 649, engine)
 }
 
-export function initLevel7(engine, gameState) {
+function initLevel7(engine, gameState) {
     new Goal(800, 600, engine, gameState);
     gameState.dropCoords = [450, 50];
     new GoodPlatform(650, 229, 668, 833, engine);
 }
 
-export function initLevel8(engine, gameState) {
+function initLevel8(engine, gameState) {
     new Goal(800, 300, engine, gameState);
     gameState.dropCoords = [100, 100];
     new BadPlatform(600, 0, 600, 400, engine);
     new BadPlatform(600, 400, 900, 400, engine);
-    description1.innerText = window.innerWidth + ', ' + window.innerHeight;
-    updateHTMLElementPosition(description1, 200, 100);
+}
+
+function initLevel9(engine, gameState) {
+    gameState.dropCoords = [100, 400];
+    new BadPlatform(400, 300, 400, 800, engine);
+    new Slingshot(300, 500, engine, gameState);
+    new Goal(800, 400, engine, gameState);
 }
 
 // Return a list of level intialializers; 1st item is null since there is no level 0
 // They all accept the same exact argumets: engine and gameState.
 export function getLevelInitializers() {
-    return [null, initLevel1, initLevel2, initLevel3, initLevel4, initLevel5, initLevel6, initLevel7, initLevel8];
+    return [null, initLevel9, initLevel2, initLevel3, initLevel4, initLevel5, initLevel6, initLevel7, initLevel8];
 }
