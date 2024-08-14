@@ -5,8 +5,8 @@ import { relativeX, relativeY } from "./objects/gameObject.js";
 function updateHTMLElementPosition(element, x, y) {
     let top = relativeY(y);
     let left = relativeX(x);
-    element.style.top = top + 'vh';
-    element.style.left = left + 'vw';
+    element.style.top = top + 'px';
+    element.style.left = left + 'px';
     element.style.transform = 'translateX(-50%)';
 }
 let description1 = document.getElementById("description1");
@@ -84,7 +84,8 @@ export function initLevel8(engine, gameState) {
     gameState.dropCoords = [100, 100];
     new BadPlatform(600, 0, 600, 400, engine);
     new BadPlatform(600, 400, 900, 400, engine);
-    updateHTMLElementPosition(description1, 200, 100)
+    description1.innerText = window.innerWidth + ', ' + window.innerHeight;
+    updateHTMLElementPosition(description1, 200, 100);
 }
 
 // Return a list of level intialializers; 1st item is null since there is no level 0
