@@ -93,6 +93,19 @@ function initLevel10(engine, gameState) {
     new BadPlatform(500, 0, 500, 400, engine);
     new BadPlatform(500, 400, 800, 400, engine);
 }
+function initLevel11(engine, gameState) {
+    gameState.dropCoords = [100, 400];
+    new BouncyPlatform(200, 600, 300, 600, engine);
+    new BadPlatform(600, 0, 600, 150, engine);
+    new BadPlatform(600, 250, 600, 800, engine);
+    new Goal(700, 500, engine, gameState);
+}
+function initLevel12(engine, gameState) {
+    gameState.dropCoords = [200, 500];
+    new Slingshot(300, 550, engine, gameState);
+    new BouncyPlatform(500, 400, 500, 300, engine);
+    new Goal(100, 100, engine, gameState);
+}
 
 // Return a list of level intialializers; 1st item is null since there is no level 0
 // They all accept the same exact argumets: engine and gameState.
@@ -108,6 +121,8 @@ export function getLevelInitializers() {
         initLevel7, 
         initLevel8,
         initLevel9,
-        initLevel10
+        initLevel10,
+        initLevel11,
+        initLevel12
     ];
 }
