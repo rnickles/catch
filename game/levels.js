@@ -93,8 +93,29 @@ function initLevel9(engine, gameState) {
     new Goal(800, 400, engine, gameState);
 }
 
+function initLevel10(engine, gameState) {
+    gameState.dropCoords = [800, 400];
+    let mp = new MovingPlatform(500, 300, 600, 300, engine);
+    gameState.gameObjectsToUpdate.push(mp);
+    new Slingshot(700, 450, engine, gameState);
+    new Slingshot(500, 250, engine, gameState);
+    new Goal(200, 400, engine, gameState);
+}
+
 // Return a list of level intialializers; 1st item is null since there is no level 0
 // They all accept the same exact argumets: engine and gameState.
 export function getLevelInitializers() {
-    return [null, initLevel9, initLevel2, initLevel3, initLevel4, initLevel5, initLevel6, initLevel7, initLevel8];
+    return [
+        null, 
+        initLevel1, 
+        initLevel2, 
+        initLevel3, 
+        initLevel4, 
+        initLevel5, 
+        initLevel6, 
+        initLevel7, 
+        initLevel8,
+        initLevel9,
+        initLevel10
+    ];
 }
