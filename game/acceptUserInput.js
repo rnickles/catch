@@ -93,8 +93,8 @@ export function acceptUserInput(engine, render, gameState) {
 
     // Adjust the canvas size when the window is resized
     window.addEventListener('resize', function() {
-        renderer.canvas.width = window.innerWidth;
-        renderer.canvas.height = window.innerHeight;
+        render.canvas.width = window.innerWidth;
+        render.canvas.height = window.innerHeight;
     });
 
     // Make sure the mouse is in sync with the rendering
