@@ -114,9 +114,9 @@ function initLevel14(engine, gameState) {
     gameState.dropCoords = [700, 100];
     new BouncyPlatform(200, 600, 300, 700, engine);
     new Goal(500, 400, engine, gameState);
-    new BadPlatform(450, 350, 550, 350, engine);
-    new BadPlatform(450, 350, 450, 500, engine);
-    new BadPlatform(550, 350, 550, 500, engine);
+    new BadPlatform(400, 350, 600, 350, engine);
+    new BadPlatform(400, 350, 400, 500, engine);
+    new BadPlatform(600, 350, 600, 500, engine);
 }
 function initLevel15(engine, gameState) {
     gameState.dropCoords = [100, 100];
