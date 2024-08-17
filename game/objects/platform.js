@@ -3,7 +3,7 @@ import { GameObject, CATEGORY_DEFAULT, ALL_MASK, relativeX, relativeY } from "./
 // General platform class; can be at any angle
 // specify the endpoints
 export class Platform extends GameObject {
-    constructor(x1, y1, x2, y2, engine, color='grey') {
+    constructor(x1, y1, x2, y2, engine, color='grey', isSensor=false) {
         super();
         x1 = relativeX(x1);
         y1 = relativeY(y1);
@@ -21,6 +21,7 @@ export class Platform extends GameObject {
         const platform = Matter.Bodies.rectangle(midX, midY, length, 10, {
             angle: angle,
             isStatic: true,
+            isSensor: isSensor,
             render: {
                 fillStyle: color
             },
