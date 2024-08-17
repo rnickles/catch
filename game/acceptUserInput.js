@@ -78,7 +78,7 @@ export function acceptUserInput(engine, render, gameState) {
         magnifierCanvas.style.display = 'block';
         showMagnifier = true;
         // Position the magnifier to the right and above the cursor
-        const offsetX = 50; // Offset distance from the cursor
+        const offsetX = 100; // Offset distance from the cursor
         const offsetY = -100;
         magnifierCanvas.style.left = (mousePosition.x + offsetX) + 'px';
         magnifierCanvas.style.top = (mousePosition.y + offsetY) + 'px';
@@ -102,7 +102,7 @@ export function acceptUserInput(engine, render, gameState) {
             Matter.Composite.remove(engine.world, temporaryPlatform.bod);
             temporaryPlatform = new Platform(startX, startY, endX, endY, engine, 'gray', true);
             // Position the magnifier to the right of the cursor
-            const offsetX = 50; // Offset distance from the cursor
+            const offsetX = 100; // Offset distance from the cursor
             const offsetY = -100;
             magnifierCanvas.style.left = (mousePosition.x + offsetX) + 'px';
             magnifierCanvas.style.top = (mousePosition.y + offsetY) + 'px';
