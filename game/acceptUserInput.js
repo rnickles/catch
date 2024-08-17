@@ -19,6 +19,7 @@ export function acceptUserInput(engine, render, gameState) {
     magnifierCanvas.width = magnifierSize;
     magnifierCanvas.height = magnifierSize;
     let showMagnifier = false;
+    let temporaryPlatform = null;
 
     // Create mouse and mouse constraint
     const mouse = Matter.Mouse.create(render.canvas);
@@ -64,6 +65,7 @@ export function acceptUserInput(engine, render, gameState) {
         const mousePosition = event.mouse.position;
         startX = mousePosition.x;
         startY = mousePosition.y;
+        temporaryPlatform = new Platform(startX, startY, startX, startY, engine, 'gray', true);
         
         // Check if an active slingshot is in the list of bodies under the mouse
         activeSlingshot = onActiveSlingshot(mousePosition);
@@ -75,28 +77,30 @@ export function acceptUserInput(engine, render, gameState) {
         // Show the magnifier when drawing starts
         magnifierCanvas.style.display = 'block';
         showMagnifier = true;
-    });
-
-    Matter.Events.on(mouseConstraint, 'mouseup', function(event) {
-        const mousePosition = event.mouse.position;
-        endX = mousePosition.x;
-        endY = mousePosition.y;
-        if (isDragging) {
-            isDragging = false;
-            didRelease = true;
-        }
-        else {
-            createPlatform(startX, startY, endX, endY);
-        }
-        // Hide the magnifier when drawing ends
-        magnifierCanvas.style.display = 'none';
-        showMagnifier = false;
+        // Position the magnifier to the right and above the cursor
+        const offsetX = 50; // Offset distance from the cursor
+        const offsetY = -100;
+        magnifierCanvas.style.left = (mousePosition.x + offsetX) + 'px';
+        magnifierCanvas.style.top = (mousePosition.y + offsetY) + 'px';
+        
+        // Calculate the region of the main canvas to magnify
+        const zoomedRegionX = mousePosition.x - (magnifierSize / 2 / magnifierZoom);
+        const zoomedRegionY = mousePosition.y - (magnifierSize / 2 / magnifierZoom);
+        
+        // Draw the zoomed-in region on the magnifier canvas
+        magnifierCtx.clearRect(0, 0, magnifierSize, magnifierSize);
+        magnifierCtx.drawImage(render.canvas, zoomedRegionX, zoomedRegionY, 
+            magnifierSize / magnifierZoom, magnifierSize / magnifierZoom, 
+            0, 0, magnifierSize, magnifierSize);
     });
 
     Matter.Events.on(mouseConstraint, 'mousemove', function(event) {
         if (showMagnifier) {
             const mousePosition = event.mouse.position;
-        
+            endX = mousePosition.x;
+            endY = mousePosition.y;
+            Matter.Composite.remove(engine.world, temporaryPlatform.bod);
+            temporaryPlatform = new Platform(startX, startY, endX, endY, engine, 'gray', true);
             // Position the magnifier to the right of the cursor
             const offsetX = 50; // Offset distance from the cursor
             const offsetY = -100;
@@ -114,6 +118,23 @@ export function acceptUserInput(engine, render, gameState) {
                 0, 0, magnifierSize, magnifierSize);
         }
         
+    });
+
+    Matter.Events.on(mouseConstraint, 'mouseup', function(event) {
+        const mousePosition = event.mouse.position;
+        endX = mousePosition.x;
+        endY = mousePosition.y;
+        if (isDragging) {
+            isDragging = false;
+            didRelease = true;
+        }
+        else {
+            Matter.Composite.remove(engine.world, temporaryPlatform.bod);
+            createPlatform(startX, startY, endX, endY);
+        }
+        // Hide the magnifier when drawing ends
+        magnifierCanvas.style.display = 'none';
+        showMagnifier = false;
     });
 
     // Event listener to release the ball
