@@ -14,8 +14,8 @@ export function acceptUserInput(engine, render, gameState) {
     const magnifierCtx = magnifierCanvas.getContext('2d');
 
     // Set the size and zoom level of the magnifier
-    const magnifierSize = 100;
-    const magnifierZoom = 2;
+    const magnifierSize = 200;
+    const magnifierZoom = 1;
     magnifierCanvas.width = magnifierSize;
     magnifierCanvas.height = magnifierSize;
     let showMagnifier = false;
