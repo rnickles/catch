@@ -9,6 +9,17 @@ export function acceptUserInput(engine, render, gameState) {
     let maxSpeed = 5; // Maximum speed of the ball
     let initialPosition = null;
 
+    // Get the magnifier canvas and its context
+    const magnifierCanvas = document.getElementById('magnifierCanvas');
+    const magnifierCtx = magnifierCanvas.getContext('2d');
+
+    // Set the size and zoom level of the magnifier
+    const magnifierSize = 100;
+    const magnifierZoom = 2;
+    magnifierCanvas.width = magnifierSize;
+    magnifierCanvas.height = magnifierSize;
+    let showMagnifier = false;
+
     // Create mouse and mouse constraint
     const mouse = Matter.Mouse.create(render.canvas);
     const mouseConstraint = Matter.MouseConstraint.create(engine, {
@@ -60,6 +71,10 @@ export function acceptUserInput(engine, render, gameState) {
             isDragging = true;
             initialPosition = activeSlingshot.elastic.bodyB.position;
         }
+
+        // Show the magnifier when drawing starts
+        magnifierCanvas.style.display = 'block';
+        showMagnifier = true;
     });
 
     Matter.Events.on(mouseConstraint, 'mouseup', function(event) {
@@ -73,6 +88,32 @@ export function acceptUserInput(engine, render, gameState) {
         else {
             createPlatform(startX, startY, endX, endY);
         }
+        // Hide the magnifier when drawing ends
+        magnifierCanvas.style.display = 'none';
+        showMagnifier = false;
+    });
+
+    Matter.Events.on(mouseConstraint, 'mousemove', function(event) {
+        if (showMagnifier) {
+            const mousePosition = event.mouse.position;
+        
+            // Position the magnifier to the right of the cursor
+            const offsetX = 50; // Offset distance from the cursor
+            const offsetY = -100;
+            magnifierCanvas.style.left = (mousePosition.x + offsetX) + 'px';
+            magnifierCanvas.style.top = (mousePosition.y + offsetY) + 'px';
+            
+            // Calculate the region of the main canvas to magnify
+            const zoomedRegionX = mousePosition.x - (magnifierSize / 2 / magnifierZoom);
+            const zoomedRegionY = mousePosition.y - (magnifierSize / 2 / magnifierZoom);
+            
+            // Draw the zoomed-in region on the magnifier canvas
+            magnifierCtx.clearRect(0, 0, magnifierSize, magnifierSize);
+            magnifierCtx.drawImage(render.canvas, zoomedRegionX, zoomedRegionY, 
+                magnifierSize / magnifierZoom, magnifierSize / magnifierZoom, 
+                0, 0, magnifierSize, magnifierSize);
+        }
+        
     });
 
     // Event listener to release the ball
