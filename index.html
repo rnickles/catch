@@ -9,6 +9,7 @@ title: Game
 
 import { getLevelInitializers } from './game/levels.js'
 import { Ball } from './game/objects/ball.js'
+import { BadPlatform } from './game/objects/platform.js'
 import { acceptUserInput } from './game/acceptUserInput.js'
 
 let levelInits = getLevelInitializers();
@@ -58,6 +59,14 @@ function buildRender() {
     return render;
 }
 
+function drawBoundary() {
+    let b = -10;
+    new BadPlatform(-b, -b, window.innerWidth + b, -b, engine);
+    new BadPlatform(-b, window.innerHeight + b, window.innerWidth + b, window.innerHeight + b, engine);
+    new BadPlatform(-b, -b, -b, window.innerHeight + b, engine);
+    new BadPlatform(window.innerWidth + b, -b, window.innerWidth + b, window.innerHeight + b, engine);
+}
+
 function resetLevel() {
     // Restart the engine and renderer to an intial state
     Matter.World.clear(engine.world, false);
@@ -69,6 +78,7 @@ function resetLevel() {
     render = buildRender();
     // Build next level
     levelInits[currentLevel](engine, gameState);
+    drawBoundary();
     setupInfoDisplay();
     dropBall();
     Matter.Render.run(render);// Restart the render
