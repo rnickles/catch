@@ -1,6 +1,6 @@
 import { GameObject, CATEGORY_MOUSE, CATEGORY_DEFAULT, relativeX, relativeY } from "./gameObject.js";
  
-const DOT_SIZE = 50;
+const DOT_SIZE = 20;
 
 export class Ball extends GameObject {
 
