@@ -13,14 +13,15 @@ let description1 = document.getElementById("description1");
 let description2 = document.getElementById("description2");
 // TUTORIAL BEGIN
 function initLevel1(engine, gameState) {
-    new Goal(200, 600, engine, gameState);
-    gameState.dropCoords = [450, 50];
+    new Goal(200, 300, engine, gameState);
+    gameState.dropCoords = [450, 600];
 
     description1.innerText = `Draw platforms to get 
                                 a ball to the goal!`;
     updateHTMLElementPosition(description1, 200, 100);
     description2.innerText = `Goal`;
-    updateHTMLElementPosition(description2, 200, 600);
+    updateHTMLElementPosition(description2, 200, 300);
+    new GoodPlatform(400, 625, 500, 625, engine);
 }
 function initLevel2(engine, gameState) {
     new Goal(200, 600, engine, gameState);
@@ -36,7 +37,7 @@ function initLevel3(engine, gameState) {
     description1.innerText = ``;
     description2.innerText = ``;
     new Goal(350, 550, engine, gameState);
-    gameState.dropCoords = [500, 50];
+    gameState.dropCoords = [600, 550];
     new BadPlatform(200, 500, 450, 500, engine);
     new BadPlatform(450, 500, 450, 649, engine)
 }

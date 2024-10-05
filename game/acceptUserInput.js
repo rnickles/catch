@@ -75,23 +75,23 @@ export function acceptUserInput(engine, render, gameState) {
         }
 
         // Show the magnifier when drawing starts
-        magnifierCanvas.style.display = 'block';
+        // magnifierCanvas.style.display = 'block';
         showMagnifier = true;
-        // Position the magnifier to the right and above the cursor
-        const offsetX = -(magnifierSize/2); // Offset distance from the cursor
-        const offsetY = -(magnifierSize * 2);
-        magnifierCanvas.style.left = (mousePosition.x + offsetX) + 'px';
-        magnifierCanvas.style.top = (mousePosition.y + offsetY) + 'px';
+        // // Position the magnifier to the right and above the cursor
+        // const offsetX = -(magnifierSize/2); // Offset distance from the cursor
+        // const offsetY = -(magnifierSize * 2);
+        // magnifierCanvas.style.left = (mousePosition.x + offsetX) + 'px';
+        // magnifierCanvas.style.top = (mousePosition.y + offsetY) + 'px';
         
-        // Calculate the region of the main canvas to magnify
-        const zoomedRegionX = mousePosition.x - (magnifierSize / 2 / magnifierZoom);
-        const zoomedRegionY = mousePosition.y - (magnifierSize / 2 / magnifierZoom);
+        // // Calculate the region of the main canvas to magnify
+        // const zoomedRegionX = mousePosition.x - (magnifierSize / 2 / magnifierZoom);
+        // const zoomedRegionY = mousePosition.y - (magnifierSize / 2 / magnifierZoom);
         
-        // Draw the zoomed-in region on the magnifier canvas
-        magnifierCtx.clearRect(0, 0, magnifierSize, magnifierSize);
-        magnifierCtx.drawImage(render.canvas, zoomedRegionX, zoomedRegionY, 
-            magnifierSize / magnifierZoom, magnifierSize / magnifierZoom, 
-            0, 0, magnifierSize, magnifierSize);
+        // // Draw the zoomed-in region on the magnifier canvas
+        // magnifierCtx.clearRect(0, 0, magnifierSize, magnifierSize);
+        // magnifierCtx.drawImage(render.canvas, zoomedRegionX, zoomedRegionY, 
+        //     magnifierSize / magnifierZoom, magnifierSize / magnifierZoom, 
+        //     0, 0, magnifierSize, magnifierSize);
     });
 
     Matter.Events.on(mouseConstraint, 'mousemove', function(event) {
@@ -102,20 +102,20 @@ export function acceptUserInput(engine, render, gameState) {
             Matter.Composite.remove(engine.world, temporaryPlatform.bod);
             temporaryPlatform = new Platform(startX, startY, endX, endY, engine, 'gray', true);
             // Position the magnifier to the right of the cursor
-            const offsetX = -(magnifierSize/2); // Offset distance from the cursor
-            const offsetY = -(magnifierSize * 2);
-            magnifierCanvas.style.left = (mousePosition.x + offsetX) + 'px';
-            magnifierCanvas.style.top = (mousePosition.y + offsetY) + 'px';
+            // const offsetX = -(magnifierSize/2); // Offset distance from the cursor
+            // const offsetY = -(magnifierSize * 2);
+            // magnifierCanvas.style.left = (mousePosition.x + offsetX) + 'px';
+            // magnifierCanvas.style.top = (mousePosition.y + offsetY) + 'px';
             
-            // Calculate the region of the main canvas to magnify
-            const zoomedRegionX = mousePosition.x - (magnifierSize / 2 / magnifierZoom);
-            const zoomedRegionY = mousePosition.y - (magnifierSize / 2 / magnifierZoom);
+            // // Calculate the region of the main canvas to magnify
+            // const zoomedRegionX = mousePosition.x - (magnifierSize / 2 / magnifierZoom);
+            // const zoomedRegionY = mousePosition.y - (magnifierSize / 2 / magnifierZoom);
             
-            // Draw the zoomed-in region on the magnifier canvas
-            magnifierCtx.clearRect(0, 0, magnifierSize, magnifierSize);
-            magnifierCtx.drawImage(render.canvas, zoomedRegionX, zoomedRegionY, 
-                magnifierSize / magnifierZoom, magnifierSize / magnifierZoom, 
-                0, 0, magnifierSize, magnifierSize);
+            // // Draw the zoomed-in region on the magnifier canvas
+            // magnifierCtx.clearRect(0, 0, magnifierSize, magnifierSize);
+            // magnifierCtx.drawImage(render.canvas, zoomedRegionX, zoomedRegionY, 
+            //     magnifierSize / magnifierZoom, magnifierSize / magnifierZoom, 
+            //     0, 0, magnifierSize, magnifierSize);
         }
         
     });
@@ -132,8 +132,8 @@ export function acceptUserInput(engine, render, gameState) {
             Matter.Composite.remove(engine.world, temporaryPlatform.bod);
             createPlatform(startX, startY, endX, endY);
         }
-        // Hide the magnifier when drawing ends
-        magnifierCanvas.style.display = 'none';
+        // // Hide the magnifier when drawing ends
+        // magnifierCanvas.style.display = 'none';
         showMagnifier = false;
     });
 
