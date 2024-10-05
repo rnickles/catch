@@ -54,7 +54,7 @@ function initLevel5(engine, gameState) {
 }
 function initLevel6(engine, gameState) {
     gameState.dropCoords = [800, 400];
-    let mp = new MovingPlatform(500, 300, 600, 300, engine);
+    let mp = new MovingPlatform(500, 300, 600, 300, engine, 0, 10);
     gameState.gameObjectsToUpdate.push(mp);
     // new Slingshot(700, 450, engine, gameState);
     // new Slingshot(500, 250, engine, gameState);
