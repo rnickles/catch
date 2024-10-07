@@ -54,6 +54,22 @@
         #level-reset:hover {
             background-color: #0056b3;
         } 
+        #undo-button {
+            position: fixed;
+            top: 70px;
+            right: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            z-index: 1001;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        #undo-button:hover {
+            background-color: #0056b3;
+        } 
     </style>
   </head>
   <body>
@@ -62,6 +78,7 @@
     <div id="description1" class="text"></div>
     <div id="description2" class="text"></div>
     <button id="level-reset">Reset Level</button>
+    <button id="undo-button">Undo</button>
     {{ content }}
   </body>
 </html>

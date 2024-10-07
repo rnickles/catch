@@ -8,6 +8,7 @@ export function acceptUserInput(engine, render, gameState) {
     let activeSlingshot = null;
     let maxSpeed = 5; // Maximum speed of the ball
     let initialPosition = null;
+    let userDrawnPlatforms = [];
 
     // Get the magnifier canvas and its context
     const magnifierCanvas = document.getElementById('magnifierCanvas');
@@ -41,8 +42,17 @@ export function acceptUserInput(engine, render, gameState) {
 
     // Function to create a new platform
     function createPlatform(x1, y1, x2, y2) {
-        new Platform(x1, y1, x2, y2, engine);
+        userDrawnPlatforms.push(new Platform(x1, y1, x2, y2, engine));
     }
+
+    function undoLastDrawnPlatform() {
+        console.log(userDrawnPlatforms.length);
+        if (userDrawnPlatforms.length > 0) {
+            Matter.Composite.remove(engine.world, userDrawnPlatforms.pop().bod);
+        }
+    }
+    document.getElementById('undo-button').onclick = undoLastDrawnPlatform;// undo button
+
     function onActiveSlingshot(mousePosition) {
         // Define a small region around the mouse
         let box_side_length = 25;
