@@ -15,7 +15,7 @@ export class Ball extends GameObject {
             restitution: 0.5,
             density: 0.1,
             render: {
-                fillStyle: 'silver'
+                fillStyle: 'darkblue'
             },
             collisionFilter: {
                 category: CATEGORY_DEFAULT,

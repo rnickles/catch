@@ -75,7 +75,6 @@ export function acceptUserInput(engine, render, gameState) {
         const mousePosition = event.mouse.position;
         startX = mousePosition.x;
         startY = mousePosition.y;
-        temporaryPlatform = new Platform(startX, startY, startX, startY, engine, 'gray', true);
         
         // Check if an active slingshot is in the list of bodies under the mouse
         activeSlingshot = onActiveSlingshot(mousePosition);
@@ -103,14 +102,20 @@ export function acceptUserInput(engine, render, gameState) {
         //     magnifierSize / magnifierZoom, magnifierSize / magnifierZoom, 
         //     0, 0, magnifierSize, magnifierSize);
     });
-
+    let delta = 8;
     Matter.Events.on(mouseConstraint, 'mousemove', function(event) {
         if (showMagnifier) {
             const mousePosition = event.mouse.position;
             endX = mousePosition.x;
             endY = mousePosition.y;
-            Matter.Composite.remove(engine.world, temporaryPlatform.bod);
-            temporaryPlatform = new Platform(startX, startY, endX, endY, engine, 'gray', true);
+            // Matter.Composite.remove(engine.world, temporaryPlatform.bod);
+            
+            if (Math.abs(endX - startX) > delta || Math.abs(endY - startY) > delta ) {
+                createPlatform(startX, startY, endX, endY);
+                startX = endX;
+                startY = endY;
+            }
+            
             // Position the magnifier to the right of the cursor
             // const offsetX = -(magnifierSize/2); // Offset distance from the cursor
             // const offsetY = -(magnifierSize * 2);
@@ -139,8 +144,8 @@ export function acceptUserInput(engine, render, gameState) {
             didRelease = true;
         }
         else {
-            Matter.Composite.remove(engine.world, temporaryPlatform.bod);
-            createPlatform(startX, startY, endX, endY);
+            // Matter.Composite.remove(engine.world, temporaryPlatform.bod);
+            // createPlatform(startX, startY, endX, endY);
         }
         // // Hide the magnifier when drawing ends
         // magnifierCanvas.style.display = 'none';
