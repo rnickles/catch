@@ -11,8 +11,8 @@ export class Ball extends GameObject {
         // matter stuff
         // create a matter body
         let bod = Matter.Bodies.circle(x, y, DOT_SIZE * 0.5, {
-            friction: 0.00001,
-            restitution: 0.5,
+            friction: 0,
+            restitution: 1,
             density: 0.1,
             render: {
                 fillStyle: 'darkblue'

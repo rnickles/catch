@@ -28,7 +28,9 @@ export class Platform extends GameObject {
             collisionFilter: {
                 category: CATEGORY_DEFAULT,
                 mask: ALL_MASK
-            }
+            },
+            restitution: 1,
+            friction: 0
         });
 
         // Add the platform to the world
