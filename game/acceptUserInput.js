@@ -19,7 +19,6 @@ export function acceptUserInput(engine, render, gameState) {
     const magnifierZoom = 1;
     magnifierCanvas.width = magnifierSize;
     magnifierCanvas.height = magnifierSize;
-    let showMagnifier = false;
     let temporaryPlatform = null;
 
     // Create mouse and mouse constraint
@@ -74,7 +73,7 @@ export function acceptUserInput(engine, render, gameState) {
             clearTimeout(t);
         }
     }
-    
+
     setupUndoButton();
 
     function onActiveSlingshot(mousePosition) {
@@ -109,7 +108,7 @@ export function acceptUserInput(engine, render, gameState) {
 
         // Show the magnifier when drawing starts
         // magnifierCanvas.style.display = 'block';
-        showMagnifier = true;
+        gameState.areDrawingPlatform = true;
         // // Position the magnifier to the right and above the cursor
         // const offsetX = -(magnifierSize/2); // Offset distance from the cursor
         // const offsetY = -(magnifierSize * 2);
@@ -126,9 +125,9 @@ export function acceptUserInput(engine, render, gameState) {
         //     magnifierSize / magnifierZoom, magnifierSize / magnifierZoom, 
         //     0, 0, magnifierSize, magnifierSize);
     });
-    let delta = 8;
     Matter.Events.on(mouseConstraint, 'mousemove', function(event) {
-        if (showMagnifier) {
+        let delta = 8;
+        if (gameState.areDrawingPlatform) {
             const mousePosition = event.mouse.position;
             endX = mousePosition.x;
             endY = mousePosition.y;
@@ -173,7 +172,7 @@ export function acceptUserInput(engine, render, gameState) {
         }
         // // Hide the magnifier when drawing ends
         // magnifierCanvas.style.display = 'none';
-        showMagnifier = false;
+        gameState.areDrawingPlatform = false;
     });
 
     // Event listener to release the ball

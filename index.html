@@ -23,7 +23,8 @@ let gameState = {
     levelComplete: false,
     dropCoords: null,
     gameObjectsToUpdate: [],
-    activeSlingshots: []
+    activeSlingshots: [],
+    areDrawingPlatform: false
 };
 let ball = null;
 let lastBallDrop = 0;
@@ -129,6 +130,7 @@ async function update() {
             console.log("woot! game over!"); 
             return;
         }
+        gameState.areDrawingPlatform = false;
         resetLevel();
     }
 
