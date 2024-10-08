@@ -51,7 +51,29 @@ export function acceptUserInput(engine, render, gameState) {
             Matter.Composite.remove(engine.world, userDrawnPlatforms.pop().bod);
         }
     }
-    document.getElementById('undo-button').onclick = undoLastDrawnPlatform;// undo button
+    
+    let undoButton = document.getElementById('undo-button');
+    function holdit() {
+        let t;
+        let start = 100;
+        let speedup = 1.05;
+    
+        let repeat = function () {
+            undoLastDrawnPlatform();
+            t = setTimeout(repeat, start);
+            start = start / speedup;
+        }
+    
+        undoButton.onmousedown = function() {
+            repeat();
+        }
+    
+        undoButton.onmouseup = function () {
+            clearTimeout(t);
+        }
+    };
+    undoButton.onclick = holdit;// undo button
+
 
     function onActiveSlingshot(mousePosition) {
         // Define a small region around the mouse
