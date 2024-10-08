@@ -52,8 +52,8 @@ export function acceptUserInput(engine, render, gameState) {
         }
     }
     
-    let undoButton = document.getElementById('undo-button');
-    function holdit() {
+    function setupUndoButton() {
+        let undoButton = document.getElementById('undo-button');
         let t;
         let start = 100;
         let speedup = 1.05;
@@ -69,11 +69,13 @@ export function acceptUserInput(engine, render, gameState) {
         }
     
         undoButton.onmouseup = function () {
+            start = 100;
+            speedup = 1.05;
             clearTimeout(t);
         }
-    };
-    undoButton.onclick = holdit;// undo button
-
+    }
+    
+    setupUndoButton();
 
     function onActiveSlingshot(mousePosition) {
         // Define a small region around the mouse
