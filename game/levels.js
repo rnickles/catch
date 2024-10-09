@@ -74,7 +74,7 @@ function initLevel7(engine, gameState) {
     new Goal(700, 300, engine, gameState);
     gameState.dropCoords = [100, 100];
     new BadPlatform(500, 0, 500, 400, engine);
-    new BadPlatform(500, 400, 800, 400, engine);
+    new BadPlatform(500, 400, 700, 400, engine);
 }
 function initLevel8(engine, gameState) {
     setupLevel(gameState);
@@ -86,6 +86,8 @@ function initLevel8(engine, gameState) {
 }
 function initLevel9(engine, gameState) {
     setupLevel(gameState);
+    description1.innerText = ``;
+    description2.innerText = ``;
     gameState.dropCoords = [200, 500];
     // new Slingshot(300, 550, engine, gameState);
     // new BouncyPlatform(500, 400, 500, 300, engine);
@@ -157,7 +159,7 @@ function initLevel15(engine, gameState) {
 function initLevel16(engine, gameState) {
     setupLevel(gameState);
     gameState.dropCoords = [400, 100];
-    new Goal(400, 700, engine, gameState);
+    new Goal(500, 700, engine, gameState);
     // left side
     new BadPlatform(0, 200, 350, 200, engine);
     new BadPlatform(350, 200, 250, 300, engine);
@@ -191,8 +193,10 @@ function initLevel17(engine, gameState) {
 export function getLevelInitializers() {
     return [
         null, 
-        initLevel1, 
+        initLevel1,
         initLevel2, 
+        initLevel9,
+        initLevel10, 
         initLevel3, 
         initLevel4, 
         initLevel5, 
