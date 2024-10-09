@@ -1,9 +1,9 @@
 import { GameObject, CATEGORY_MOUSE, CATEGORY_DEFAULT, relativeX, relativeY } from "./gameObject.js";
  
-const DOT_SIZE = 20;
+const DOT_SIZE = 30;
 
 export class Ball extends GameObject {
-
+    #engine
     constructor(x, y, engine) {
         super();
         x = relativeX(x);
@@ -25,5 +25,9 @@ export class Ball extends GameObject {
         // add it to the physics world
         Matter.Composite.add(engine.world, bod);
         this.bod = bod;
+        this.#engine = engine;
+    }
+    
+    update() {
     }
 }

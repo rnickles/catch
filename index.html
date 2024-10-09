@@ -69,7 +69,7 @@ function setupInfoDisplay() {
 }
 
 function dropBall() {
-    new Ball(gameState.dropCoords[0], gameState.dropCoords[1], engine);
+    gameState.gameObjectsToUpdate.push(new Ball(gameState.dropCoords[0], gameState.dropCoords[1], engine));
     lastBallDrop = Date.now();
 }
 
