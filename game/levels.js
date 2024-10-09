@@ -188,6 +188,18 @@ function initLevel17(engine, gameState) {
 
     new Goal(350, 450, engine);
 }
+// function initLevel18(engine, gameState) {
+//     setupLevel(gameState);
+//     gameState.dropCoords = [200, 200];
+//     var rows = 10,
+//         yy = 600 - 25 - 40 * rows;
+    
+//     var stack = Matter.Composites.stack(400, yy, 5, rows, 0, 0, function(x, y) {
+//         return Matter.Bodies.rectangle(x, y, 40, 40);
+//     });
+    
+//     Matter.Composite.add(engine.world, stack,)
+// }
 // Return a list of level intialializers; 1st item is null since there is no level 0
 // They all accept the same exact argumets: engine and gameState.
 export function getLevelInitializers() {
@@ -203,8 +215,6 @@ export function getLevelInitializers() {
         initLevel6, 
         initLevel7, 
         initLevel8,
-        initLevel9,
-        initLevel10,
         initLevel11,
         initLevel12,
         initLevel13,
