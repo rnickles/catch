@@ -66,8 +66,16 @@ export function acceptUserInput(engine, render, gameState) {
         undoButton.onmousedown = function() {
             repeat();
         }
+        undoButton.ontouchstart = function() {
+            repeat();
+        }
     
         undoButton.onmouseup = function () {
+            start = 100;
+            speedup = 1.05;
+            clearTimeout(t);
+        }
+        undoButton.ontouchend = function () {
             start = 100;
             speedup = 1.05;
             clearTimeout(t);
