@@ -22,7 +22,8 @@ function initLevel1(engine, gameState) {
     gameState.dropCoords = [450, 600];
 
     description1.innerText = `Draw platforms to get 
-                                a ball to the goal!`;
+                                a ball to the goal!
+                                Hint: use pressure`;
     updateHTMLElementPosition(description1, 200, 100);
     description2.innerText = `Goal`;
     updateHTMLElementPosition(description2, 200, 300);
@@ -36,6 +37,8 @@ function initLevel2(engine, gameState) {
     description1.innerText = `Red platforms 
                                 destroy balls`;
     updateHTMLElementPosition(description1, 250, 100);
+    updateHTMLElementPosition(description2, 200, 600);
+
 }
 // TUTORIAL END
 // LEVELS BEGIN
@@ -206,7 +209,7 @@ function initLevel18(engine, gameState) {
 export function getLevelInitializers() {
     return [
         null, 
-        initLevel18,
+        initLevel1,
         initLevel2, 
         initLevel9,
         initLevel10, 
