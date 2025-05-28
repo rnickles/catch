@@ -14,8 +14,8 @@ import { acceptUserInput } from './game/acceptUserInput.js'
 
 let levelInits = getLevelInitializers();
 let engine = Matter.Engine.create({
-    constraintIterations: 10, // default is 2, higher helps not miss collisions
-    positionIterations: 10,   // default is 6, higher helps not miss collisions
+    constraintIterations: 2, // default is 2, higher helps not miss collisions
+    positionIterations: 6,   // default is 6, higher helps not miss collisions
 });
 const MAX_LEVEL = levelInits.length - 1;// less one to account for null first element
 let currentLevel = 1;

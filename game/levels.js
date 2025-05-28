@@ -1,5 +1,6 @@
 import { Goal, GoodPlatform, BouncyPlatform, MovingPlatform, BadPlatform } from "./objects/platform.js"
 import { Slingshot } from "./objects/slingshot.js";
+import { Brick } from "./objects/brick.js";
 import { relativeX, relativeY } from "./objects/gameObject.js";
 
 function updateHTMLElementPosition(element, x, y) {
@@ -188,24 +189,24 @@ function initLevel17(engine, gameState) {
 
     new Goal(350, 450, engine);
 }
-// function initLevel18(engine, gameState) {
-//     setupLevel(gameState);
-//     gameState.dropCoords = [200, 200];
-//     var rows = 10,
-//         yy = 600 - 25 - 40 * rows;
-    
-//     var stack = Matter.Composites.stack(400, yy, 5, rows, 0, 0, function(x, y) {
-//         return Matter.Bodies.rectangle(x, y, 40, 40);
-//     });
-    
-//     Matter.Composite.add(engine.world, stack,)
-// }
+function initLevel18(engine, gameState) {
+    setupLevel(gameState);
+    gameState.dropCoords = [200, 200];
+    let stack = Matter.Composites.stack(400, 100, 5, 10, 0, 0, function(x, y) {
+        return new Brick(x, y, engine);
+    });
+    new GoodPlatform(300, 607, 750, 607, engine);
+    new GoodPlatform(300, 607, 300, 100, engine);
+    new GoodPlatform(750, 607, 750, 100, engine);
+
+    Matter.Composite.add(engine.world, stack,)
+}
 // Return a list of level intialializers; 1st item is null since there is no level 0
 // They all accept the same exact argumets: engine and gameState.
 export function getLevelInitializers() {
     return [
         null, 
-        initLevel1,
+        initLevel18,
         initLevel2, 
         initLevel9,
         initLevel10, 
