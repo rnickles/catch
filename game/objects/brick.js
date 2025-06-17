@@ -3,7 +3,7 @@ import { GameObject, CATEGORY_DEFAULT, ALL_MASK, relativeX, relativeY } from "./
 export class Brick extends GameObject {
     constructor(x, y, engine) {
         super();
-        const SIZE = 50;
+        const SIZE = 25;
         const brick = Matter.Bodies.rectangle(x, y, SIZE, SIZE, {
             render: {
                 fillStyle: 'darkorange'
@@ -12,19 +12,19 @@ export class Brick extends GameObject {
                 category: CATEGORY_DEFAULT,
                 mask: ALL_MASK
             },
-            restitution: 0.5,
-            friction: 0.5,
-            density: 0.5,
+            restitution: 1,
+            friction: 0.3,
+            density: 1.0,
             // isStatic: true
         });
         Matter.Composite.add(engine.world, brick);
-        Matter.Events.on(engine, 'beforeUpdate', function() {
-            let gravity = engine.world.gravity;
-            Matter.Body.applyForce(brick, brick.position, {
-                x: -gravity.x * gravity.scale * brick.mass,
-                y: -gravity.y * gravity.scale * brick.mass
-            });
-        });
+        // Matter.Events.on(engine, 'beforeUpdate', function() {
+        //     let gravity = engine.world.gravity;
+        //     Matter.Body.applyForce(brick, brick.position, {
+        //         x: -gravity.x * gravity.scale * brick.mass,
+        //         y: -gravity.y * gravity.scale * brick.mass
+        //     });
+        // });
         this.bod = brick;
         return brick;
     }

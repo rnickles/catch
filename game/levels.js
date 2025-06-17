@@ -195,12 +195,12 @@ function initLevel17(engine, gameState) {
 function initLevel18(engine, gameState) {
     setupLevel(gameState);
     gameState.dropCoords = [200, 200];
-    let stack = Matter.Composites.stack(400, 100, 5, 10, 0, 0, function(x, y) {
+    let stack = Matter.Composites.stack(400, 100, 4, 4, 1, 1, function(x, y) {
         return new Brick(x, y, engine);
     });
-    new GoodPlatform(300, 607, 750, 607, engine);
-    new GoodPlatform(300, 607, 300, 100, engine);
-    new GoodPlatform(750, 607, 750, 100, engine);
+    new GoodPlatform(300, 200, 750, 200, engine);
+    // new GoodPlatform(300, 607, 300, 100, engine);
+    // new GoodPlatform(750, 607, 750, 100, engine);
 
     Matter.Composite.add(engine.world, stack,)
 }
@@ -219,12 +219,11 @@ export function getLevelInitializers() {
         initLevel6, 
         initLevel7, 
         initLevel8,
-        initLevel11,
-        initLevel12,
-        initLevel13,
-        initLevel14,
         initLevel15,
         initLevel16,
+        initLevel11,
+        initLevel13,
+        initLevel14,
         initLevel17
     ];
 }
